@@ -15,7 +15,7 @@ const App = () => {
         <Routes>
           <Route path='/'>
             <Route index element={<Home />} />
-            <Route path='admin/dashboard/*' element={<Dashboard />} />
+            <Route path='dashboard/*' element={<Dashboard />} />
             <Route path='profile' element={<Profile />} />
             <Route path='login' element={<Login />} />
             <Route path='initialization/private/administrator' element={<InitializationPage />} />
