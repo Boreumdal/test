@@ -4,6 +4,8 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
+import Login from './pages/Login'
+import InitializationPage from './pages/InitializationPage'
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path='admin/dashboard/*' element={<Dashboard />} />
             <Route path='profile' element={<Profile />} />
+            <Route path='login' element={<Login />} />
+            <Route path='initialization/private/administrator' element={<InitializationPage />} />
           </Route>
         </Routes>
       </div>

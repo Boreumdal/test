@@ -4,4 +4,26 @@
 
 body {
     background-color: rgb(245, 245, 245);
+    color: rgb(42, 42, 42);
+}
+
+/* LOGIN */
+
+.login-card {
+    background-image: url('/src/img/login-bg-2.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+/* COLORS */
+.bg-transparent {
+    background-color: transparent;
+}
+
+.bg-darkblue-pastel {
+    background-color: #2f2f2f;
+}
+
+.text-darkblue-pastel {
+    color: #0081C9;
 }
