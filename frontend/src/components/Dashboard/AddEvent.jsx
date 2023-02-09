@@ -17,6 +17,7 @@ const AddEvent = () => {
         setImg('')
         setTitle('')
         setDescription('')
+        setCampus('Main')
         setWhen('')
     }
 
@@ -30,7 +31,6 @@ const AddEvent = () => {
             })
     }
     
-
   return (
     <div className='mx-6 mt-2'>
         <h1 className='text-3xl font-extrabold py-2'>Add Event</h1>
@@ -50,8 +50,8 @@ const AddEvent = () => {
                     <div className='input-field-addstudent'>
                         <label htmlFor="campus">Campus:</label>
                         <select className={inputStyle} onChange={e => setCampus(e.target.value)} id='campus'>
-                            <option value="Main">Cainta Main Campus</option>
-                            <option value="Taytay">Taytay Campus</option>
+                            <option value="Main" selected={campus === 'Main' ? true : ''}>Cainta Main Campus</option>
+                            <option value="Taytay" selected={campus === 'Taytay' ? true : ''}>Taytay Campus</option>
                         </select>
                     </div>
                     <div className='input-field-addstudent'>
