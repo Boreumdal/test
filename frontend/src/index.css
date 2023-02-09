@@ -24,6 +24,50 @@ body {
     background-color: #2f2f2f;
 }
 
+.bg-1 {
+    background-color: #39726F;
+    border: 3px solid #39726F;
+    color: rgb(244, 244, 244);
+}
+.bg-1:hover {
+    background-color: #39726f18;
+    border: 3px solid #39726F;
+    color: #39726F;
+}
+
+.bg-2 {
+    background-color: #3A82F7;
+    border: 3px solid #3A82F7;
+    color: rgb(244, 244, 244);
+}
+.bg-2:hover {
+    background-color: #3a83f718;
+    border: 3px solid #3A82F7;
+    color: #3A82F7;
+}
+
+.bg-3 {
+    background-color: #ED486A;
+    border: 3px solid #ED486A;
+    color: rgb(244, 244, 244);
+}
+.bg-3:hover {
+    background-color: #ed486918;
+    border: 3px solid #ED486A;
+    color: #ED486A;
+}
+
+.bg-4 {
+    background-color: #AE003B;
+    border: 3px solid #AE003B;
+    color: rgb(244, 244, 244);
+}
+.bg-4:hover {
+    background-color: #ae003a18;
+    border: 3px solid #AE003B;
+    color: #AE003B;
+}
+
 .text-darkblue-pastel {
     color: #0081C9;
 }
