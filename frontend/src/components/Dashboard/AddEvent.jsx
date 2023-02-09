@@ -23,7 +23,6 @@ const AddEvent = () => {
 
     const handleAddEvent = e => {
         e.preventDefault()
-        console.log('sub')
         axios.post('http://localhost:8000/dashboard/event/add', { title, description, campus, when, picture: img })
             .then(response => {
                 setNotif(response.data)
@@ -49,9 +48,9 @@ const AddEvent = () => {
                     </div>
                     <div className='input-field-addstudent'>
                         <label htmlFor="campus">Campus:</label>
-                        <select className={inputStyle} onChange={e => setCampus(e.target.value)} id='campus'>
-                            <option value="Main" selected={campus === 'Main' ? true : ''}>Cainta Main Campus</option>
-                            <option value="Taytay" selected={campus === 'Taytay' ? true : ''}>Taytay Campus</option>
+                        <select className={inputStyle} value={campus} onChange={e => setCampus(e.target.value)} id='campus'>
+                            <option value="Main">Cainta Main Campus</option>
+                            <option value="Taytay">Taytay Campus</option>
                         </select>
                     </div>
                     <div className='input-field-addstudent'>
