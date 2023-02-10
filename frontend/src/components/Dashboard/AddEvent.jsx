@@ -36,7 +36,7 @@ const AddEvent = () => {
                     reset()
                 })
         } else {
-            setNotif({ err: 'Please fill up all fields before submitting'})
+            setNotif({ err: 'Please fill up all fields before adding'})
         }
             
     }

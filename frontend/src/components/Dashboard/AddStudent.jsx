@@ -4,7 +4,7 @@ import axios from 'axios'
 import { autoCapital } from '../../utilities/UtilityFunction'
 
 const AddStudent = () => {
-    const { data } = useSystem()
+    const { data, notif, setNotif } = useSystem()
     const [img, setImg] = useState('')
     const [fname, setFname] = useState('')
     const [mname, setMname] = useState('')
@@ -63,9 +63,12 @@ const AddStudent = () => {
                 student_username: uname,
                 password
             })
-            .then(r => console.log(r))
+            .then(response => {
+                setNotif(response.data)
+                reset()
+            })
         } else {
-            setNotif({ err: 'Please fill up all fields before submitting'})
+            setNotif({ err: 'Please fill up all fields before adding'})
         }
     }
 
@@ -179,9 +182,14 @@ const AddStudent = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex flex-row items-center mt-2 gap-2'>
-                <button type="submit" className='border-2 border-green-500 text-white bg-green-500 hover:text-green-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Add Student</button>
-                <span className='font-medium text-xs text-gray-400'>Your admin id is: { data._id }</span>
+            <div className='flex flex-row justify-between items-center mt-2 gap-2'>
+                <div className='flex items-center gap-2'>
+                    <button type="submit" className='border-2 border-green-500 text-white bg-green-500 hover:text-green-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Add Student</button>
+                    <span className='font-medium text-xs text-gray-400'>Your admin id is: { data._id }</span>
+                </div>
+                { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
+                { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
+
             </div>
         </form>
     </div>

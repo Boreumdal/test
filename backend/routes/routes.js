@@ -58,16 +58,30 @@ router.post('/', (req, res) => {
 // ADMIN: ADD STUDENT
 
 router.post('/dashboard/student/add', async (req, res) => { // going to student collection
-    // const student = new Student({ ...req.body })
-    // student.save()
-    console.log(req.body)
-    return res.json({ msg: 'Student added' })
+    const student_id_exists = await Student.exists({ student_id: req.body.student_id })
+    const student_uname_exists = await Student.exists({ student_username: req.body.student_username })
+
+    if (student_id_exists || student_uname_exists){
+        return res.json({ err: 'Student already exists in database' })
+    }
+
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) res.json({ err: 'Password secret generation error'})
+        bcrypt.hash(req.body.password, salt, (err, password) => {
+            if (err) res.json({ err: 'Password generation error'})
+            const student = new Student({ ...req.body, password })
+            student.save()
+
+            return res.json({ msg: `Student ${req.body.student_id} added` })
+        })
+    })
 })
 
 router.post('/dashboard/event/add', async (req, res) => { // going to event collection
     const event = new Event({ ...req.body })
     event.save()
-    return res.json({ msg: 'Event added' })
+
+    return res.json({ msg: `Event ${req.body.title} added` })
 })
 
 module.exports = router
