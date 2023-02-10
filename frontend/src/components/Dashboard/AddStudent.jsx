@@ -4,6 +4,42 @@ import { useSystem } from '../../context/SystemContext'
 const AddStudent = () => {
     const { data } = useSystem()
     const [img, setImg] = useState('')
+    const [fname, setFname] = useState('')
+    const [mname, setMname] = useState('')
+    const [lname, setLname] = useState('')
+    const [gender, setGender] = useState('Male')
+    const [studentId, setStudentId] = useState('')
+    const [year, setYear] = useState(0)
+    const [course, setCourse] = useState('BSIT')
+    const [branch, setBranch] = useState('Cainta Main')
+    const [status, setStatus] = useState('Regular')
+    const [contact, setContact] = useState('')
+    const [email, setEmail] = useState('')
+    const [profile, setProfile] = useState('')
+    const [uname, setUname] = useState('')
+    const [password, setPassword] = useState('')
+
+    const reset = () => {
+        setFname('')
+        setMname('')
+        setLname('')
+        setGender('Male')
+        setStudentId('')
+        setYear(0)
+        setCourse('BSIT')
+        setBranch('Cainta Main')
+        setStatus('Regular')
+        setContact('')
+        setEmail('')
+        setProfile('')
+        setUname('')
+        setPassword('')
+        setImg('')
+    }
+
+    const handleAddStudent = e => {
+        
+    }
 
     const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
     const defaultImage = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'

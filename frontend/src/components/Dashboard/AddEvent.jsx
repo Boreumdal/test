@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import axios from 'axios'
+import { autoCapital } from '../../utilities/UtilityFunction'
 
 const AddEvent = () => {
     const { data, notif, setNotif } = useSystem()
@@ -23,11 +24,21 @@ const AddEvent = () => {
 
     const handleAddEvent = e => {
         e.preventDefault()
-        axios.post('http://localhost:8000/dashboard/event/add', { title, description, campus, when, picture: img })
-            .then(response => {
-                setNotif(response.data)
-                reset()
+
+        if (title && description && campus && when){
+            axios.post('http://localhost:8000/dashboard/event/add', { 
+                title: autoCapital(title), 
+                description: autoCapital(description), 
+                campus, when, picture: img ? img : defaultImage
             })
+                .then(response => {
+                    setNotif(response.data)
+                    reset()
+                })
+        } else {
+            setNotif({ err: 'Please fill up all fields before submitting'})
+        }
+            
     }
     
   return (
@@ -72,11 +83,10 @@ const AddEvent = () => {
             <div className='flex flex-row justify-between items-center mt-2 gap-2'>
                 <div className='flex items-center gap-2'>
                     <button type="submit" className='border-2 border-orange-500 text-white bg-orange-500 hover:text-orange-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Add Event</button>
-                    { notif?.msg && <p className='text-xs text-green-500 rounded-full py-1 font-medium'>{ notif.msg }</p> }
-                    { notif?.err && <p className='text-xs text-red-500 rounded-full py-1 font-medium'>{ notif.err }</p> }
+                    <p className='font-medium text-xs text-gray-400'>Your admin id is: { data._id }</p>
                 </div>
-                <p className='font-medium text-xs text-gray-400'>Your admin id is: { data._id }</p>
-                
+                { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
+                { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
                 
             </div>
 
