@@ -9,7 +9,7 @@ const AddStudent = () => {
     const [lname, setLname] = useState('')
     const [gender, setGender] = useState('Male')
     const [studentId, setStudentId] = useState('')
-    const [year, setYear] = useState(0)
+    const [year, setYear] = useState(1)
     const [course, setCourse] = useState('BSIT')
     const [branch, setBranch] = useState('Cainta Main')
     const [status, setStatus] = useState('Regular')
@@ -25,23 +25,16 @@ const AddStudent = () => {
         setLname('')
         setGender('Male')
         setStudentId('')
-        setYear(0)
+        setYear(1)
         setCourse('BSIT')
         setBranch('Cainta Main')
         setStatus('Regular')
         setContact('')
         setEmail('')
-        setProfile('')
         setUname('')
         setPassword('')
         setImg('')
     }
-
-    const handleIdAsUsername = () => {
-
-    }
-
-    // console.log(uname + '  ' + studentId)
 
     useEffect(() => {
         if (idAsUsername){
@@ -51,9 +44,13 @@ const AddStudent = () => {
 
     const handleAddStudent = e => {
         e.preventDefault()
+        if (fname && mname && lname && gender && studentId && year && course && branch && status && contact && email && img && password){
 
-
+        } else {
+            setNotif({ err: 'Please fill up all fields before submitting'})
+        }
     }
+
     const idAsUsernameFunc = e => {
         const val = e.target.value
         setStudentId(val)
@@ -65,7 +62,7 @@ const AddStudent = () => {
   return (
     <div className='mx-6 mt-2'>
         <h1 className='text-3xl font-extrabold py-2'>Add Student</h1>
-        <form className='bg-white shadow p-6 text-sm mt-2'>
+        <form onSubmit={handleAddStudent} className='bg-white shadow p-6 text-sm mt-2'>
             <p className='pb-2 font-medium'>Please fill out the input fields...</p>
             <div className='flex justify-between gap-4 border-b py-2'>
                 <div className='w-1/2'>
@@ -95,7 +92,7 @@ const AddStudent = () => {
                     </div>
                     <div className='input-field-addstudent'>
                         <label htmlFor="email">Email:</label>
-                        <input type="number" onChange={e => setEmail(e.target.value)} value={email} className={inputStyle} id='email' placeholder='Email...' />
+                        <input type="email" onChange={e => setEmail(e.target.value)} value={email} className={inputStyle} id='email' placeholder='Email...' />
                     </div>
                 </div>
             </div>
@@ -140,7 +137,7 @@ const AddStudent = () => {
                         <label htmlFor="profile_pic" className='py-2 self-start'>Student Picture:</label>
                         <div className='input-field-addstudent-preview'>
                             <input type="text" onChange={e => setImg(e.target.value)} value={img} className={inputStyle + ' self-start'} id='profile_pic' placeholder='Student picture link...' />
-                            <img src={img ? img : defaultImage} className='w-full shadow' alt="" />
+                            <img src={img ? img : defaultImage} className='w-full h-[110px] shadow object-cover' alt="" />
                         </div>
                         
                     </div>
@@ -168,10 +165,6 @@ const AddStudent = () => {
                 <button type="submit" className='border-2 border-green-500 text-white bg-green-500 hover:text-green-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Add Student</button>
                 <span className='font-medium text-xs text-gray-400'>Your admin id is: { data._id }</span>
             </div>
-            <p>{ studentId }</p>
-            <p>{ uname }</p>
-            
-            
         </form>
     </div>
   )
