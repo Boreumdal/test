@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const router = express.Router()
 const Admin = require('../models/Admin')
 const Event = require('../models/Event')
+const Student = require('../models/Student')
 
 // admin: 5deba6ae484c2fa98f58e4b0df0dd7fecfd9f7dd9a4a9f9b4739d8e1389915bd826442a81312ac3228ecc83120
 // student: 49afe28d956804de0fde8f7bcabd749f495193c53fc5d802355c96ad6f3f46c37e72d18b9830d61de80c7b01f9
@@ -55,11 +56,15 @@ router.post('/', (req, res) => {
 })
 
 // ADMIN: ADD STUDENT
-router.post('/dashboard/student/add', async (req, res) => {
-    
+
+router.post('/dashboard/student/add', async (req, res) => { // going to student collection
+    // const student = new Student({ ...req.body })
+    // student.save()
+    console.log(req.body)
+    return res.json({ msg: 'Student added' })
 })
 
-router.post('/dashboard/event/add', async (req, res) => {
+router.post('/dashboard/event/add', async (req, res) => { // going to event collection
     const event = new Event({ ...req.body })
     event.save()
     return res.json({ msg: 'Event added' })

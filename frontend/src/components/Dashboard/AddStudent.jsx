@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSystem } from '../../context/SystemContext'
+import axios from 'axios'
+import { autoCapital } from '../../utilities/UtilityFunction'
 
 const AddStudent = () => {
     const { data } = useSystem()
@@ -45,7 +47,23 @@ const AddStudent = () => {
     const handleAddStudent = e => {
         e.preventDefault()
         if (fname && mname && lname && gender && studentId && year && course && branch && status && contact && email && img && password){
-
+            axios.post('http://localhost:8000/dashboard/student/add', {
+                first_name: autoCapital(fname),
+                middle_name: autoCapital(mname),
+                last_name: autoCapital(lname),
+                gender,
+                student_id: studentId,
+                year_level: year,
+                course,
+                branch,
+                status,
+                contact,
+                email,
+                profile: img,
+                student_username: uname,
+                password
+            })
+            .then(r => console.log(r))
         } else {
             setNotif({ err: 'Please fill up all fields before submitting'})
         }
