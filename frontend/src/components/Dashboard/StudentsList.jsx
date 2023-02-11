@@ -47,7 +47,7 @@ const StudentsList = () => {
   return (
     <div>
       <h1 className='text-xl font-bold py-1'>Students List</h1>
-      <table className='student-table bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
+      <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
         <thead>
           {
             headerGroups.map(headerGroup => (
