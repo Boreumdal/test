@@ -7,7 +7,7 @@ import axios from 'axios'
 import { fetchAll } from '../utilities/FetchFunction'
 
 const Home = () => {
-  const { token, data, setData, setStudents, setEvents } = useSystem()
+  const { token, data, setData, setRequests, setStudents, setEvents } = useSystem()
 
   useEffect(() => {
     if (token){
@@ -26,6 +26,13 @@ const Home = () => {
         .then(response => {
           setStudents(response.response.students)
           setEvents(response.response.events)
+        })
+    }
+    if (data.role === '49afe28d956804de0fde8f7bcabd749f495193c53fc5d802355c96ad6f3f46c37e72d18b9830d61de80c7b01f9'){
+      fetchAll(`http://localhost:8000/dashboard/student/${data._id}`)
+        .then(response => {
+          console.log(response)
+          setRequests(response.response.requests)
         })
     }
   }, [data])

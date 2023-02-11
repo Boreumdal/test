@@ -71,13 +71,6 @@ router.post('/', (req, res) => {
 })
 
 // DASHBOARD
-// FETCHES ALL
-router.get('/dashboard/all', async (req, res) => {
-    const students = await Student.find({})
-    const events = await Event.find({})
-
-    return res.json({ students, events })
-})
 
 // ADMIN: ADD STUDENT
 
@@ -109,6 +102,23 @@ router.post('/dashboard/event/add', async (req, res) => { // going to event coll
     return res.json({ msg: `Event ${req.body.title} added` })
 })
 
+// FETCHES ALL
+router.get('/dashboard/all', async (req, res) => {
+    const students = await Student.find({})
+    const events = await Event.find({})
+
+    return res.json({ students, events })
+})
+
+// FETCHES INDIVIDUAL STUDENT REQUEST TIX
+router.get('/dashboard/student/:id', async (req, res) => {
+    const { id } = req.params
+    console.log(id)
+    const requests = await Request.find({ from_id: id})
+
+    return res.json({ requests })
+})
+
 // STUDENT: ADD REQUEST
 router.post('/dashboard/request/add', async (req, res) => {
     const request = new Request({ ...req.body })
@@ -116,5 +126,6 @@ router.post('/dashboard/request/add', async (req, res) => {
 
     return res.json({ msg: `Request has been sent` })
 })
+
 
 module.exports = router
