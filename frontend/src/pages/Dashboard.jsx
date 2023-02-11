@@ -5,20 +5,10 @@ import { BsFillHouseFill, BsPersonPlusFill, BsFillCalendarEventFill } from "reac
 import AddEvent from '../components/Dashboard/AddEvent'
 import Main from '../components/Dashboard/Main'
 import AddStudent from '../components/Dashboard/AddStudent'
-import { fetchAll } from '../utilities/FetchFunction'
-import axios from 'axios'
 
 const Dashboard = () => {
-  const { data, students, setStudents, events, setEvents } = useSystem()
+  const { data } = useSystem()
   const navigationLinkStyle = ' text-sm mt-1 py-3 px-4 font-medium flex items-center gap-3'
-
-  useEffect(() => {
-    fetchAll('http://localhost:8000/dashboard/all')
-      .then(response => {
-        setStudents(response.response.students)
-        setEvents(response.response.events)
-      })
-  }, [])
 
   return (
     <div className='h-[92vh] flex flex-row'>
@@ -34,7 +24,7 @@ const Dashboard = () => {
         <div className='mt-3 mx-2'>
           <h1 className='text-xs font-bold text-gray-500 py-2'>Navigation</h1>
           <div className='flex flex-col'>
-            <NavLink to='/dashboard/home' className={({isActive}) => (isActive ? 'text-blue-500' : '') + navigationLinkStyle}>
+            <NavLink to='/dashboard/admin' className={({isActive}) => (isActive ? 'text-blue-500' : '') + navigationLinkStyle}>
               <span className='text-lg'><BsFillHouseFill /></span>
               <span>Home</span>
             </NavLink>
@@ -52,7 +42,7 @@ const Dashboard = () => {
       <div className='border w-9/12 overflow-y-auto'>
         <Routes>
           <Route path='/'>
-            <Route path='/home/*' element={<Main />} />
+            <Route path='admin/*' element={<Main />} />
             <Route path='add/student' element={<AddStudent  />} />
             <Route path='add/event' element={<AddEvent />} />
           </Route>

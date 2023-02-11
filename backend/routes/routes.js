@@ -56,7 +56,7 @@ router.post('/', (req, res) => {
 })
 
 // DASHBOARD
-// FETCH ALL
+// FETCHES ALL
 router.get('/dashboard/all', async (req, res) => {
     const students = await Student.find({})
     const events = await Event.find({})

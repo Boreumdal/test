@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom'
 import { useSystem } from '../context/SystemContext'
 
 const Navbar = () => {
-  const { token, setData, setToken } = useSystem()
+  const { token, data, setData, setToken, setStudents, setEvents } = useSystem()
   
   const logout = () => {
     setData({})
+    setStudents({})
+    setEvents({})
     setToken('')
   }
 

@@ -14,21 +14,21 @@ const Main = () => {
         <div className='flex gap-2 py-2'>
             <div className='w-2/3 flex flex-col gap-2'>
                 <div className='flex gap-2'>
-                    <Link to='/dashboard/home' className='duration-200 w-1/2 bg-1 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
+                    <Link to='/dashboard/admin' className='duration-200 w-1/2 bg-1 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
                         <p className='font-bold text-2xl'>{ students ? students.length : 'Err: Can\'t calculate length' }</p>
                         <p className='text-sm '>Students</p>
                     </Link>
-                    <Link to='/dashboard/home/event' className='duration-200 w-1/2 bg-2 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
+                    <Link to='/dashboard/admin/event' className='duration-200 w-1/2 bg-2 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
                         <p className='font-bold text-2xl'>{ events ? events.length : 'Err: Can\'t calculate length' }</p>
                         <p className='text-sm '>Events</p>
                     </Link>
                 </div>
                 <div className='flex gap-2'>
-                    <Link to='/dashboard/home/request' className='duration-200 w-1/2 bg-3 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
+                    <Link to='/dashboard/admin/request' className='duration-200 w-1/2 bg-3 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
                         <p className='font-bold text-2xl'>1000</p>
                         <p className='text-sm '>Request dummy</p>
                     </Link>
-                    <Link to='/dashboard/home/schedule' className='duration-200 w-1/2 bg-4 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
+                    <Link to='/dashboard/admin/schedule' className='duration-200 w-1/2 bg-4 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
                         <p className='font-bold text-2xl'>989898</p>
                         <p className='text-sm '>Scheduled</p>
                     </Link>
