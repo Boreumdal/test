@@ -17,6 +17,10 @@ const RequestSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    from_studentid: {
+        type: String,
+        required: true
+    },
     from_fname: {
         type: String,
         required: true

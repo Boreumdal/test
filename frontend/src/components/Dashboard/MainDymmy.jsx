@@ -40,8 +40,7 @@ const MainDymmy = () => {
     {
       Header: 'Status',
       accessor: 'req_status'
-    },
-
+    }
   ]
 
   return (

@@ -106,8 +106,9 @@ router.post('/dashboard/event/add', async (req, res) => { // going to event coll
 router.get('/dashboard/all', async (req, res) => {
     const students = await Student.find({})
     const events = await Event.find({})
+    const requests = await Request.find({})
 
-    return res.json({ students, events })
+    return res.json({ students, events, requests })
 })
 
 // FETCHES INDIVIDUAL STUDENT REQUEST TICKET

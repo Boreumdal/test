@@ -28,12 +28,14 @@ const AddRequest = () => {
                 req_type: reqType,
                 pref_date: preferredDate,
                 from_id: data._id,
+                from_studentid: data.student_id,
                 from_fname: data.first_name,
                 from_lname: data.last_name,
                 from_branch: data.branch,
                 req_status: 'Waiting',
                 year_level: data.year_level,
-                course: data.course
+                course: data.course,
+                created_at: Date.now()
             })
                 .then(response => {
                     setNotif(response.data)

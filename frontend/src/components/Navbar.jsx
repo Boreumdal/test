@@ -1,14 +1,17 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSystem } from '../context/SystemContext'
 
 const Navbar = () => {
-  const { token, data, setData, setToken, setStudents, setEvents } = useSystem()
-  
+  const { token, data, setData, setToken, setStudents, setEvents, setRequests } = useSystem()
+  const navigate = useNavigate()
+
   const logout = () => {
     setData({})
     setStudents({})
     setEvents({})
+    setRequests({})
     setToken('')
+    navigate('/')
   }
 
   return (
