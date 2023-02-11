@@ -2,9 +2,10 @@ import React, { useState, useRef } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import axios from 'axios'
 import { autoCapital } from '../../utilities/UtilityFunction'
+import { fetchAll } from '../../utilities/FetchFunction'
 
 const AddRequest = () => {
-    const { data, notif, setNotif } = useSystem()
+    const { data, notif, setNotif, setRequests } = useSystem()
 
     const [reqType, setReqType] = useState('Missing ID')
     const [message, setMessage] = useState('')
@@ -37,6 +38,11 @@ const AddRequest = () => {
                 .then(response => {
                     setNotif(response.data)
                     reset()
+
+                    fetchAll(`http://localhost:8000/dashboard/student/${data._id}`)
+                        .then(response => {
+                            setRequests(response.response.requests)
+                        })
                 })
         } else {
             setNotif({ err: 'Please fill up all fields before sending'})

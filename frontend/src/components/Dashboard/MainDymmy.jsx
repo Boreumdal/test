@@ -51,7 +51,7 @@ const MainDymmy = () => {
         <p className='text-sm font-medium text-gray-400'>Welcome, {`${data?.first_name}`}</p>
       </div>
       <div>
-        <h1 className='text-xl font-bold'>Students List</h1>
+        <h1 className='text-xl font-bold'>Requests List</h1>
         <Table arr={requests} columns={columns} />
       </div>
     </div>

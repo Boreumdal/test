@@ -110,10 +110,9 @@ router.get('/dashboard/all', async (req, res) => {
     return res.json({ students, events })
 })
 
-// FETCHES INDIVIDUAL STUDENT REQUEST TIX
+// FETCHES INDIVIDUAL STUDENT REQUEST TICKET
 router.get('/dashboard/student/:id', async (req, res) => {
     const { id } = req.params
-    console.log(id)
     const requests = await Request.find({ from_id: id})
 
     return res.json({ requests })

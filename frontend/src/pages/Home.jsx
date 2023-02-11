@@ -31,7 +31,6 @@ const Home = () => {
     if (data.role === '49afe28d956804de0fde8f7bcabd749f495193c53fc5d802355c96ad6f3f46c37e72d18b9830d61de80c7b01f9'){
       fetchAll(`http://localhost:8000/dashboard/student/${data._id}`)
         .then(response => {
-          console.log(response)
           setRequests(response.response.requests)
         })
     }
