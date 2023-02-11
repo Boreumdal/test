@@ -22,21 +22,26 @@ const AddRequest = () => {
     const handleAddRequest = e => {
         e.preventDefault()
 
-        // if (message && reqType && preferredDate){
-        //     axios.post('http://localhost:8000/dashboard/event/add', { 
-        //         title: autoCapital(title), 
-        //         message: autoCapital(message), 
-        //         reqType, preferredDate, picture: img ? img : defaultImage
-        //     })
-        //         .then(response => {
-        //             setNotif(response.data)
-        //             reset()
-        //         })
-        // } else {
-        //     setNotif({ err: 'Please fill up all fields before adding'})
-        // }
-
-        reset()
+        if (message && reqType && preferredDate){
+            axios.post('http://localhost:8000/dashboard/request/add', {
+                message: autoCapital(message), 
+                req_type: reqType,
+                pref_date: preferredDate,
+                from_id: data._id,
+                from_fname: data.first_name,
+                from_lname: data.last_name,
+                from_branch: data.branch,
+                req_status: 'Waiting',
+                year_level: data.year_level,
+                course: data.course
+            })
+                .then(response => {
+                    setNotif(response.data)
+                    reset()
+                })
+        } else {
+            setNotif({ err: 'Please fill up all fields before sending'})
+        }
             
     }
     
@@ -73,16 +78,12 @@ const AddRequest = () => {
             </div>
             <div className='flex flex-row justify-between items-center mt-2 gap-2'>
                 <div className='flex items-center gap-2'>
-                    <button type="submit" className='border-2 border-orange-500 text-white bg-orange-500 hover:text-orange-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Add Event</button>
+                    <button type="submit" className='border-2 border-orange-500 text-white bg-orange-500 hover:text-orange-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Send</button>
                     <p className='font-medium text-xs text-gray-400'>Your ID is: { data._id }</p>
                 </div>
                 { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
                 { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
-                
             </div>
-    {reqType}
-    {message}
-    {preferredDate}
         </form>
     </div>
   )
