@@ -55,6 +55,15 @@ router.post('/', (req, res) => {
     })
 })
 
+// DASHBOARD
+// FETCH ALL
+router.get('/dashboard/all', async (req, res) => {
+    const students = await Student.find({})
+    const events = await Event.find({})
+
+    return res.json({ students, events })
+})
+
 // ADMIN: ADD STUDENT
 
 router.post('/dashboard/student/add', async (req, res) => { // going to student collection

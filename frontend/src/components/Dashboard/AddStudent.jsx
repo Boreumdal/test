@@ -21,6 +21,9 @@ const AddStudent = () => {
     const [password, setPassword] = useState('')
     const [idAsUsername, setIdAsUsername] = useState(false)
 
+    const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
+    const defaultImage = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+    
     const reset = () => {
         setFname('')
         setMname('')
@@ -59,7 +62,7 @@ const AddStudent = () => {
                 status,
                 contact,
                 email,
-                profile: img,
+                profile: img ? img : defaultImage,
                 student_username: uname,
                 password
             })
@@ -78,8 +81,6 @@ const AddStudent = () => {
         setUname(val)
     }
 
-    const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
-    const defaultImage = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
   return (
     <div className='mx-6 mt-2'>
         <h1 className='text-3xl font-extrabold py-2'>Add Student</h1>

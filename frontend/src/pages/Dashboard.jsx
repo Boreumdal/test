@@ -1,14 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSystem } from '../context/SystemContext'
-import { NavLink, Route, Router, Routes } from 'react-router-dom'
+import { NavLink, Route, Routes } from 'react-router-dom'
 import { BsFillHouseFill, BsPersonPlusFill, BsFillCalendarEventFill } from "react-icons/bs"
 import AddEvent from '../components/Dashboard/AddEvent'
 import Main from '../components/Dashboard/Main'
 import AddStudent from '../components/Dashboard/AddStudent'
+import { fetchAll } from '../utilities/FetchFunction'
+import axios from 'axios'
 
 const Dashboard = () => {
-  const { data } = useSystem()
+  const { data, setStudents, setEvents } = useSystem()
   const navigationLinkStyle = ' text-sm mt-1 py-3 px-4 font-medium flex items-center gap-3'
+
+  useEffect(() => {
+    fetchAll('http://localhost:8000/dashboard/all')
+      .then(response => {
+        setStudents(response.data.students)
+        setEvents(response.data.events)
+      })
+  }, [])
+
   return (
     <div className='h-[92vh] flex flex-row'>
       <div className='shadow w-3/12 bg-white'>
@@ -19,6 +30,8 @@ const Dashboard = () => {
             <p className='text-sm'>Admin</p>
           </div>
         </div>
+
+        <button onClick={() => fetchAll('s')}>Fet</button>
 
         <div className='mt-3 mx-2'>
           <h1 className='text-xs font-bold text-gray-500 py-2'>Navigation</h1>
