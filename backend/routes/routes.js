@@ -45,6 +45,20 @@ router.post('/login', async (req, res) => {
             return res.json({ authToken: token })
         })
     }
+
+    const isInStudent = await Student.exists({ student_username: req.body.username })
+
+    if (isInStudent){
+        const user = await Student.findOne({ student_username: req.body.username })
+
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+            if (err) throw err
+            if (!result) return res.json({ err: 'Wrong password' })
+
+            const token = jwt.sign({ ...user }, process.env.JWT_SECRET)
+            return res.json({ authToken: token })
+        })
+    }
 })
 
 // HOMEPAGE
