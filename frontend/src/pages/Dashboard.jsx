@@ -9,14 +9,14 @@ import { fetchAll } from '../utilities/FetchFunction'
 import axios from 'axios'
 
 const Dashboard = () => {
-  const { data, setStudents, setEvents } = useSystem()
+  const { data, students, setStudents, events, setEvents } = useSystem()
   const navigationLinkStyle = ' text-sm mt-1 py-3 px-4 font-medium flex items-center gap-3'
 
   useEffect(() => {
     fetchAll('http://localhost:8000/dashboard/all')
       .then(response => {
-        setStudents(response.data.students)
-        setEvents(response.data.events)
+        setStudents(response.response.students)
+        setEvents(response.response.events)
       })
   }, [])
 
@@ -30,8 +30,6 @@ const Dashboard = () => {
             <p className='text-sm'>Admin</p>
           </div>
         </div>
-
-        <button onClick={() => fetchAll('s')}>Fet</button>
 
         <div className='mt-3 mx-2'>
           <h1 className='text-xs font-bold text-gray-500 py-2'>Navigation</h1>

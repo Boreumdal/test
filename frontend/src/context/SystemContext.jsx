@@ -6,10 +6,10 @@ export const SysContext = ({ children }) => {
     const [token, setToken] = useState('')
     const [data, setData] = useState({})
     const [notif, setNotif] = useState({})
-    const [students, setStudents] = useState({})
-    const [events, setEvents] = useState({})
-    const [requests, setRequests] = useState({})
-    const [schedules, seSchedules] = useState({})
+    const [students, setStudents] = useState([])
+    const [events, setEvents] = useState([])
+    const [requests, setRequests] = useState([])
+    const [schedules, seSchedules] = useState([])
 
     useEffect(() => {
         const interval = setInterval(() => {

@@ -4,8 +4,10 @@ import StudentsList from './StudentsList'
 import EventsList from './EventsList'
 import RequestList from './RequestList'
 import SchedulesList from './SchedulesList'
+import { useSystem } from '../../context/SystemContext'
 
 const Main = () => {
+    const { students } = useSystem()
   return (
     <div className='mx-6 mt-2'>
         <h1 className='text-3xl font-extrabold py-2'>Dashboard</h1>
@@ -13,7 +15,7 @@ const Main = () => {
             <div className='w-2/3 flex flex-col gap-2'>
                 <div className='flex gap-2'>
                     <Link to='/dashboard/home' className='duration-200 w-1/2 bg-1 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
-                        <p className='font-bold text-2xl'>10000</p>
+                        <p className='font-bold text-2xl'>{ students ? students.length : 'Err: Can\'t calculate length' }</p>
                         <p className='text-sm '>Students Dummy</p>
                     </Link>
                     <Link to='/dashboard/home/event' className='duration-200 w-1/2 bg-2 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>

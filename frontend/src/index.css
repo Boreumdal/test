@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    font-size: 16px;
+}
+
 body {
     background-color: rgb(245, 245, 245);
     color: rgb(42, 42, 42);
@@ -31,6 +35,37 @@ body {
     display: grid;
     grid-template-columns: 70% 30%;
     gap: 6px;
+}
+
+/* STUDENT TABLE */
+table {
+    width: 100%;
+    font-size: 14px;
+}
+
+td, th {
+    border-bottom: 1px solid rgb(238, 238, 238)
+}
+.student-table thead {
+    background-color: #448aed;
+    color: white;
+}
+.student-table thead th {
+    width: 200px;
+    padding: 1rem 0;
+}
+.student-table tbody td {
+    width: 200px;
+    padding: .8rem .6rem;
+}
+
+.student-table tbody tr:hover {
+    opacity: .9;
+    color: #3667ab;
+}
+
+.student-table tbody tr:nth-child(even){
+    background-color: #dbdbdb;
 }
 
 /* COLORS */
