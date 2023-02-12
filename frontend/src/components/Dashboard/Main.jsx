@@ -29,7 +29,7 @@ const Main = () => {
                         <p className='text-sm '>Request</p>
                     </Link>
                     <Link to='/dashboard/admin/schedule' className='duration-200 w-1/2 bg-4 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
-                        <p className='font-bold text-2xl'>{  }asd</p>
+                        <p className='font-bold text-2xl'>{ schedules.length }</p>
                         <p className='text-sm '>Scheduled</p>
                     </Link>
                 </div>

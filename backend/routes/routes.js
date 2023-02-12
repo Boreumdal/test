@@ -135,6 +135,12 @@ router.get(`/dashboard/request`, async (req, res) => {
     return res.json({ requests })
 })
 
+router.get(`/dashboard/schedule`, async (req, res) => {
+    const schedules = await Schedule.find({})
+
+    return res.json({ schedules })
+})
+
 router.delete('/dashboard/request', async (req, res) => {
     await Request.findByIdAndDelete({ _id: req.body._id})
     return res.json({ err: `Deleted ${req.body._id}`})

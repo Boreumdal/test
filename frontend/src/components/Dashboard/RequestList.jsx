@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useTable } from 'react-table'
 
 const RequestList = () => {
-  const { notif, setNotif, requests, setRequests } = useSystem()
+  const { notif, setNotif, requests, setRequests, setSchedules } = useSystem()
   const historyInfo = useRef([])
   const appoint_date = useRef(null)
   
@@ -69,6 +69,10 @@ const RequestList = () => {
           }
           
           setRequests(response.data.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
+        })
+      axios.get('http://localhost:8000/dashboard/schedule')
+        .then(response => {
+          setSchedules(response.data.schedules)
         })
     })
   }
