@@ -9,7 +9,7 @@ export const SysContext = ({ children }) => {
     const [students, setStudents] = useState([])
     const [events, setEvents] = useState([])
     const [requests, setRequests] = useState([])
-    const [schedules, seSchedules] = useState([])
+    const [schedules, setSchedules] = useState([])
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -19,7 +19,7 @@ export const SysContext = ({ children }) => {
     }, [])
     
     return (
-        <SystemContext.Provider value={{token, setToken, data, setData, notif, setNotif, students, setStudents, events, setEvents, requests, setRequests, schedules, seSchedules}}>
+        <SystemContext.Provider value={{token, setToken, data, setData, notif, setNotif, students, setStudents, events, setEvents, requests, setRequests, schedules, setSchedules}}>
             { children }
         </SystemContext.Provider>
     )

@@ -7,7 +7,7 @@ import axios from 'axios'
 import { fetchAll } from '../utilities/FetchFunction'
 
 const Home = () => {
-  const { token, data, setData, setRequests, setStudents, setEvents } = useSystem()
+  const { token, data, setData, setRequests, setStudents, setEvents, setSchedules } = useSystem()
 
   useEffect(() => {
     if (token){
@@ -27,6 +27,7 @@ const Home = () => {
           setStudents(response.response.students)
           setEvents(response.response.events)
           setRequests(response.response.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
+          setSchedules(response.response.schedules)
         })
     }
     if (data.role === '49afe28d956804de0fde8f7bcabd749f495193c53fc5d802355c96ad6f3f46c37e72d18b9830d61de80c7b01f9'){

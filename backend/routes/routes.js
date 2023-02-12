@@ -108,8 +108,9 @@ router.get('/dashboard/all', async (req, res) => {
     const students = await Student.find({})
     const events = await Event.find({})
     const requests = await Request.find({})
+    const schedules = await Schedule.find({})
 
-    return res.json({ students, events, requests })
+    return res.json({ students, events, requests, schedules })
 })
 
 // FETCHES INDIVIDUAL STUDENT REQUEST TICKET

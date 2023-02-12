@@ -9,7 +9,6 @@ const RequestList = () => {
   const historyInfo = useRef([])
   const appoint_date = useRef(null)
   
-// .map(a => a).sort((a, b) => a.created_at - b.created_at)
   const columns = [
     {
       Header: 'ID',
@@ -50,7 +49,7 @@ const RequestList = () => {
     {
       Header: 'Status',
       accessor: 'req_status'
-    },
+    }
 
   ]
 

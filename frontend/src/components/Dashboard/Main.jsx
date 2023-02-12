@@ -7,7 +7,7 @@ import SchedulesList from './SchedulesList'
 import { useSystem } from '../../context/SystemContext'
 
 const Main = () => {
-    const { students, events, requests } = useSystem()
+    const { students, events, requests, schedules } = useSystem()
   return (
     <div className='mx-6 mt-2'>
         <h1 className='text-3xl font-extrabold py-2'>Dashboard</h1>
@@ -26,10 +26,10 @@ const Main = () => {
                 <div className='flex gap-2'>
                     <Link to='/dashboard/admin/request' className='duration-200 w-1/2 bg-3 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
                         <p className='font-bold text-2xl'>{ requests.length }</p>
-                        <p className='text-sm '>Request dummy</p>
+                        <p className='text-sm '>Request</p>
                     </Link>
                     <Link to='/dashboard/admin/schedule' className='duration-200 w-1/2 bg-4 shadow rounded-md flex flex-col pl-8 justify-center h-[130px]'>
-                        <p className='font-bold text-2xl'>989898</p>
+                        <p className='font-bold text-2xl'>{  }asd</p>
                         <p className='text-sm '>Scheduled</p>
                     </Link>
                 </div>
