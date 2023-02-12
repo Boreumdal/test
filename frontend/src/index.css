@@ -75,6 +75,11 @@ td, th {
     background-color: #dbdbdb;
 }
 
+.request-info {
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
 /* COLORS */
 .bg-transparent {
     background-color: transparent;
