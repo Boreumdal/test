@@ -26,7 +26,7 @@ const Home = () => {
         .then(response => {
           setStudents(response.response.students)
           setEvents(response.response.events)
-          setRequests(response.response.requests)
+          setRequests(response.response.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
         })
     }
     if (data.role === '49afe28d956804de0fde8f7bcabd749f495193c53fc5d802355c96ad6f3f46c37e72d18b9830d61de80c7b01f9'){

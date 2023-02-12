@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useSystem } from '../../context/SystemContext'
-import Table from '../util/Table'
 import { MdDelete } from 'react-icons/md'
 import axios from 'axios'
+import { useTable } from 'react-table'
 
 const RequestList = () => {
   const { notif, setNotif, requests, setRequests } = useSystem()
@@ -61,7 +61,7 @@ const RequestList = () => {
       setNotif(res.data)
       axios.get('http://localhost:8000/dashboard/request')
         .then(response => {
-          setRequests(response.data.requests)
+          setRequests(response.data.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
         })
     })
   }
@@ -73,6 +73,14 @@ const RequestList = () => {
   const handleSetSchedule = id => {
 
   }
+
+  const columsArray = useMemo(() => columns, [])
+  const dataArray = useMemo(() => requests, [requests])
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+      columns: columsArray,
+      data: dataArray
+  })
 
   return (
     <div>
@@ -96,7 +104,7 @@ const RequestList = () => {
               <h3 className='text-xs font-bold text-gray-500 py-2'>Student Info:</h3>
               <div className='grid grid-cols-2 gap-2'>
                 <div>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span>{ `${requests[0].from_lname}, ${requests[0].from_fname}` }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ `${requests[0].from_lname}, ${requests[0].from_fname}` }</span></p>
                   <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>ID:</span> <span>{ requests[0].from_studentid }</span></p>
                 </div>
                 <div>
@@ -146,7 +154,43 @@ const RequestList = () => {
 
       <div className='py-2'>
         <h1 className='text-xl font-bold py-1'>Requests Table</h1>
-        <Table arr={requests} columns={columns} />
+        <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
+            <thead>
+                {
+                    headerGroups.map(headerGroup => (
+                        <tr { ...headerGroup.getHeaderGroupProps()}>
+                        {
+                            headerGroup.headers.map(column => (
+                            <th { ...column.getHeaderProps()}>
+                                { column.render('Header')}
+                            </th>
+                            ))
+                        }
+                        </tr>
+                    ))
+                }
+            </thead>
+            <tbody {...getTableBodyProps()}>
+                {
+                    rows.map(row => {
+                        prepareRow(row)
+                        return (
+                        <tr { ...row.getRowProps()}>
+                            {
+                            row.cells.map(cell => (
+                                <td { ...cell.getCellProps()}>
+                                {
+                                    cell.render('Cell')
+                                }
+                                </td>
+                            ))
+                            }
+                        </tr>
+                        )
+                    })
+                }
+            </tbody>
+        </table>
       </div>
     </div>
   )
