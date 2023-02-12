@@ -127,5 +127,15 @@ router.post('/dashboard/request/add', async (req, res) => {
     return res.json({ msg: `Request has been sent` })
 })
 
+router.get(`/dashboard/request`, async (req, res) => {
+    const requests = await Request.find({})
+
+    return res.json({ requests })
+})
+
+router.delete('/dashboard/request', async (req, res) => {
+    await Request.findByIdAndDelete({ _id: req.body._id})
+    return res.json({ msg: `Deleted ${req.body._id}`})
+})
 
 module.exports = router

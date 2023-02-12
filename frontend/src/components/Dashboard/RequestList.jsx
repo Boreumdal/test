@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import Table from '../util/Table'
 import { MdDelete } from 'react-icons/md'
+import axios from 'axios'
 
 const RequestList = () => {
-  const { requests } = useSystem()
-  const sorted_request = requests.map(a => a).sort((a, b) => a.created_at - b.created_at)
-  
-  const [pref, setPref] = useState(sorted_request[0].pref_date)
+  const { notif, setNotif, requests, setRequests } = useSystem()
 
+  
+// .map(a => a).sort((a, b) => a.created_at - b.created_at)
   const columns = [
     {
       Header: 'ID',
@@ -56,8 +56,19 @@ const RequestList = () => {
   const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
 
   const handleDelete = id => {
-
+    axios.delete(`http://localhost:8000/dashboard/request`, { data: { _id: id } })
+    .then(res => {
+      setNotif(res.data)
+      axios.get('http://localhost:8000/dashboard/request')
+        .then(response => {
+          setRequests(response.data.requests)
+        })
+    })
   }
+
+  useEffect(() => {
+    console.log('rerender')
+  },[requests])
 
   const handleSetSchedule = id => {
 
@@ -67,33 +78,37 @@ const RequestList = () => {
     <div>
       <div className='grid grid-cols-2 gap-2 items-center h-[405px]'>
         <div className='h-full flex flex-col'>
-          <h1 className='text-xl font-bold py-1 h-fit'>Requests Info</h1>
+          <div className='flex items-center justify-between'>
+            <h1 className='text-xl font-bold py-1 h-fit'>Requests Info</h1>
+            { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-2 font-medium'>{ notif.msg }</p> }
+                { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
+          </div>
           <div className='shadow rounded flex flex-col justify-center bg-white h-full px-5'>
             <div>
               <div className='flex justify-between items-center'>
                 <h3 className='text-xs font-bold text-gray-500 py-2'>Request Info:</h3>
-                <button className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button>
+                <button onClick={() => handleDelete(requests[0]._id )} className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button>
               </div>
-              <p className='request-info items-center pb-1'><span className='text-sm font-medium'>Concern:</span><span>{ sorted_request[0].req_type }</span></p> 
-              <p className='request-info items-center pb-1'><span className='self-start text-sm font-medium'>Message:</span> <span className='h-24 overflow-y-auto'>{ sorted_request[0].message }</span></p>
+              <p className='request-info items-center pb-1'><span className='text-sm font-medium'>Concern:</span><span>{ requests[0].req_type }</span></p> 
+              <p className='request-info items-center pb-1'><span className='self-start text-sm font-medium'>Message:</span> <span className='h-24 overflow-y-auto'>{ requests[0].message }</span></p>
             </div>
             <div className='mt-1'>
               <h3 className='text-xs font-bold text-gray-500 py-2'>Student Info:</h3>
               <div className='grid grid-cols-2 gap-2'>
                 <div>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span>{ `${sorted_request[0].from_lname}, ${sorted_request[0].from_fname}` }</span></p>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>ID:</span> <span>{ sorted_request[0].from_studentid }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span>{ `${requests[0].from_lname}, ${requests[0].from_fname}` }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>ID:</span> <span>{ requests[0].from_studentid }</span></p>
                 </div>
                 <div>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Branch:</span> <span>{ sorted_request[0].from_branch }</span></p>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Status:</span> <span>{ sorted_request[0].req_status }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Branch:</span> <span>{ requests[0].from_branch }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Status:</span> <span>{ requests[0].req_status }</span></p>
                 </div>
               </div>
             </div>
             <div className='mt-1'>
               <h3 className='text-xs font-bold text-gray-500 py-2'>Set Appointment Schedule:</h3>
               <div className='grid grid-cols-2 gap-2'>
-                <input type="date" id="" className={inputStyle } defaultValue={pref} />
+                <input type="date" id="" className={inputStyle } defaultValue={requests[0].pref_date} />
                 <button className='bg-green-500 text-sm font-medium text-white rounded'>Set Schedule</button>
               </div>
             </div>
@@ -128,9 +143,10 @@ const RequestList = () => {
 
         </div>
       </div>
+
       <div className='py-2'>
         <h1 className='text-xl font-bold py-1'>Requests Table</h1>
-        <Table arr={sorted_request} columns={columns} />
+        <Table arr={requests} columns={columns} />
       </div>
     </div>
   )
