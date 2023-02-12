@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import Table from '../util/Table'
+import { MdDelete } from 'react-icons/md'
 
 const RequestList = () => {
   const { requests } = useSystem()
@@ -54,6 +55,14 @@ const RequestList = () => {
 
   const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
 
+  const handleDelete = id => {
+
+  }
+
+  const handleSetSchedule = id => {
+
+  }
+
   return (
     <div>
       <div className='grid grid-cols-2 gap-2 items-center h-[405px]'>
@@ -61,7 +70,10 @@ const RequestList = () => {
           <h1 className='text-xl font-bold py-1 h-fit'>Requests Info</h1>
           <div className='shadow rounded flex flex-col justify-center bg-white h-full px-5'>
             <div>
-              <h3 className='text-xs font-bold text-gray-500 py-2'>Request Info:</h3>
+              <div className='flex justify-between items-center'>
+                <h3 className='text-xs font-bold text-gray-500 py-2'>Request Info:</h3>
+                <button className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button>
+              </div>
               <p className='request-info items-center pb-1'><span className='text-sm font-medium'>Concern:</span><span>{ sorted_request[0].req_type }</span></p> 
               <p className='request-info items-center pb-1'><span className='self-start text-sm font-medium'>Message:</span> <span className='h-24 overflow-y-auto'>{ sorted_request[0].message }</span></p>
             </div>
@@ -81,8 +93,8 @@ const RequestList = () => {
             <div className='mt-1'>
               <h3 className='text-xs font-bold text-gray-500 py-2'>Set Appointment Schedule:</h3>
               <div className='grid grid-cols-2 gap-2'>
-                <input type="date" id="" className={inputStyle } value={pref} />
-                <button className='border bg-red-500 text-sm font-medium text-white rounded'>Set Schedule</button>
+                <input type="date" id="" className={inputStyle } defaultValue={pref} />
+                <button className='bg-green-500 text-sm font-medium text-white rounded'>Set Schedule</button>
               </div>
             </div>
           </div>
@@ -90,25 +102,25 @@ const RequestList = () => {
 
         <div className='grid grid-rows-2 h-full'>
 
-          <div className='h-full border flex flex-col'>
+          <div className='h-full flex flex-col'>
             <h1 className='text-xl h-fit font-bold py-1'>Requests History</h1>
             <div className='shadow rounded h-full bg-white p-4'>
               
             </div>
           </div>
 
-          <div className='h-full border flex flex-col'>
-            <h1 className='text-xl h-fit font-bold py-1'>Option</h1>
+          <div className='h-full flex flex-col'>
+            <h1 className='text-xl h-fit font-bold py-1'>Options</h1>
             <div className='shadow h-full rounded flex flex-col justify-center gap-2 bg-white p-4'>
               <div>
-                <label htmlFor="filter_by">Filter type by:</label>
+                <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
                 <select className={inputStyle} id="filter_by">
                   <option value="Missing ID">Missing ID</option>
                   <option value="Clearance">Clearance</option>
                 </select>
               </div>
               <div>
-                <label htmlFor="search_lastname">Search by last name:</label>
+                <label className='text-sm font-medium' htmlFor="search_lastname">Search by last name:</label>
                 <input type="text" id='search_lastname' className={inputStyle} placeholder='Search by last name...' />
               </div>
             </div>
