@@ -80,6 +80,11 @@ td, th {
     grid-template-columns: 30% 70%;
 }
 
+.request-name {
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+
 /* COLORS */
 .bg-transparent {
     background-color: transparent;

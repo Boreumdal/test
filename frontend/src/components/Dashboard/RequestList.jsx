@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import { MdDelete } from 'react-icons/md'
 import axios from 'axios'
@@ -6,7 +6,7 @@ import { useTable } from 'react-table'
 
 const RequestList = () => {
   const { notif, setNotif, requests, setRequests } = useSystem()
-
+  const historyInfo = useRef([])
   
 // .map(a => a).sort((a, b) => a.created_at - b.created_at)
   const columns = [
@@ -55,20 +55,23 @@ const RequestList = () => {
 
   const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
 
-  const handleDelete = id => {
+  const handleDelete = (id, gauge) => {
     axios.delete(`http://localhost:8000/dashboard/request`, { data: { _id: id } })
     .then(res => {
       setNotif(res.data)
       axios.get('http://localhost:8000/dashboard/request')
         .then(response => {
+          if (historyInfo.current.length > 1){
+            historyInfo.current = [historyInfo.current[1], {...requests[0], gauge}]
+          }
+          if (historyInfo.current.length < 2){
+            historyInfo.current = [...historyInfo.current, {...requests[0], gauge}]
+          }
+          
           setRequests(response.data.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
         })
     })
   }
-
-  useEffect(() => {
-    console.log('rerender')
-  },[requests])
 
   const handleSetSchedule = id => {
 
@@ -84,7 +87,7 @@ const RequestList = () => {
 
   return (
     <div>
-      <div className='grid grid-cols-2 gap-2 items-center h-[405px]'>
+      <div className='grid grid-cols-2 gap-2 items-center h-[425px] max-h-[425px]'>
         <div className='h-full flex flex-col'>
           <div className='flex items-center justify-between'>
             <h1 className='text-xl font-bold py-1 h-fit'>Requests Info</h1>
@@ -95,17 +98,18 @@ const RequestList = () => {
             <div>
               <div className='flex justify-between items-center'>
                 <h3 className='text-xs font-bold text-gray-500 py-2'>Request Info:</h3>
-                <button onClick={() => handleDelete(requests[0]._id )} className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button>
+                <button onClick={() => handleDelete(requests[0]._id, 2)} className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button>
               </div>
               <p className='request-info items-center pb-1'><span className='text-sm font-medium'>Concern:</span><span>{ requests[0].req_type }</span></p> 
               <p className='request-info items-center pb-1'><span className='self-start text-sm font-medium'>Message:</span> <span className='h-24 overflow-y-auto'>{ requests[0].message }</span></p>
             </div>
             <div className='mt-1'>
               <h3 className='text-xs font-bold text-gray-500 py-2'>Student Info:</h3>
-              <div className='grid grid-cols-2 gap-2'>
+              <p className='request-name items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ `${requests[0].from_lname}, ${requests[0].from_fname}` }</span></p>
+              <div className='grid grid-cols-2'>
                 <div>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ `${requests[0].from_lname}, ${requests[0].from_fname}` }</span></p>
                   <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>ID:</span> <span>{ requests[0].from_studentid }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Course:</span> <span>{ requests[0].course }</span></p>
                 </div>
                 <div>
                   <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Branch:</span> <span>{ requests[0].from_branch }</span></p>
@@ -117,7 +121,7 @@ const RequestList = () => {
               <h3 className='text-xs font-bold text-gray-500 py-2'>Set Appointment Schedule:</h3>
               <div className='grid grid-cols-2 gap-2'>
                 <input type="date" id="" className={inputStyle } defaultValue={requests[0].pref_date} />
-                <button className='bg-green-500 text-sm font-medium text-white rounded'>Set Schedule</button>
+                <button className='bg-green-500 text-sm font-medium text-white rounded shadow'>Set Schedule</button>
               </div>
             </div>
           </div>
@@ -127,8 +131,17 @@ const RequestList = () => {
 
           <div className='h-full flex flex-col'>
             <h1 className='text-xl h-fit font-bold py-1'>Requests History</h1>
-            <div className='shadow rounded h-full bg-white p-4'>
-              
+            <div className='shadow rounded flex flex-col h-full max-h-full bg-white p-4 overflow-auto'>
+              { 
+                historyInfo.current.length > 0
+                ? historyInfo.current.map(info => (
+                      <div className={(info.gauge === 2 ? 'border-red-500' : 'border-green-500') + ' border-l-4 text-sm font-medium p-3 text-gray-800 bg-gray-50 shadow mb-2 flex flex-row justify-between'}>
+                        <p>{`${info.from_lname}, ${info.from_fname}`}</p>
+                        <p>{info.req_type}</p>
+                      </div>
+                    ))
+                : <p className='font-medium'>No history recorded</p> 
+              }
             </div>
           </div>
 

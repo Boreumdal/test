@@ -4,7 +4,7 @@ import { useTable } from 'react-table'
 const Table = ({ arr, columns }) => {
 
     const columsArray = useMemo(() => columns, [])
-    const dataArray = useMemo(() => arr, [arr])
+    const dataArray = useMemo(() => arr, [])
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
         columns: columsArray,
