@@ -6,6 +6,7 @@ const Admin = require('../models/Admin')
 const Event = require('../models/Event')
 const Student = require('../models/Student')
 const Request = require('../models/Request')
+const Schedule = require('../models/Schedule')
 
 // admin: 5deba6ae484c2fa98f58e4b0df0dd7fecfd9f7dd9a4a9f9b4739d8e1389915bd826442a81312ac3228ecc83120
 // student: 49afe28d956804de0fde8f7bcabd749f495193c53fc5d802355c96ad6f3f46c37e72d18b9830d61de80c7b01f9
@@ -135,7 +136,15 @@ router.get(`/dashboard/request`, async (req, res) => {
 
 router.delete('/dashboard/request', async (req, res) => {
     await Request.findByIdAndDelete({ _id: req.body._id})
-    return res.json({ msg: `Deleted ${req.body._id}`})
+    return res.json({ err: `Deleted ${req.body._id}`})
+})
+
+// ADMIN: To schedule collection
+router.post('/dashboard/schedule', async (req, res) => {
+    const sched = await Schedule({ ...req.body })
+    sched.save()
+
+    return res.json({ msg: 'Schedule added'})
 })
 
 module.exports = router

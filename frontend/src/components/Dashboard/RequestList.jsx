@@ -7,6 +7,7 @@ import { useTable } from 'react-table'
 const RequestList = () => {
   const { notif, setNotif, requests, setRequests } = useSystem()
   const historyInfo = useRef([])
+  const appoint_date = useRef(null)
   
 // .map(a => a).sort((a, b) => a.created_at - b.created_at)
   const columns = [
@@ -58,7 +59,7 @@ const RequestList = () => {
   const handleDelete = (id, gauge) => {
     axios.delete(`http://localhost:8000/dashboard/request`, { data: { _id: id } })
     .then(res => {
-      setNotif(res.data)
+      if (gauge === 2) setNotif(res.data)
       axios.get('http://localhost:8000/dashboard/request')
         .then(response => {
           if (historyInfo.current.length > 1){
@@ -73,8 +74,16 @@ const RequestList = () => {
     })
   }
 
-  const handleSetSchedule = id => {
-
+  const handleSetSchedule = details => {
+    axios.post('http://localhost:8000/dashboard/schedule', {
+      ...details,
+      req_status: 'Scheduled',
+      appointed_date: appoint_date.current.value
+    })
+      .then(response => {
+        setNotif(response.data)
+        handleDelete(details._id, 1)
+      })
   }
 
   const columsArray = useMemo(() => columns, [])
@@ -92,7 +101,7 @@ const RequestList = () => {
           <div className='flex items-center justify-between'>
             <h1 className='text-xl font-bold py-1 h-fit'>Requests Info</h1>
             { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-2 font-medium'>{ notif.msg }</p> }
-                { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
+            { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
           </div>
           <div className='shadow rounded flex flex-col justify-center bg-white h-full px-5'>
             <div>
@@ -120,8 +129,8 @@ const RequestList = () => {
             <div className='mt-1'>
               <h3 className='text-xs font-bold text-gray-500 py-2'>Set Appointment Schedule:</h3>
               <div className='grid grid-cols-2 gap-2'>
-                <input type="date" id="" className={inputStyle } defaultValue={requests[0].pref_date} />
-                <button className='bg-green-500 text-sm font-medium text-white rounded shadow'>Set Schedule</button>
+                <input type="date" id="" className={inputStyle} ref={appoint_date} defaultValue={requests[0].pref_date} />
+                <button onClick={() => handleSetSchedule(requests[0])} className='bg-green-500 text-sm font-medium text-white rounded shadow'>Set Schedule</button>
               </div>
             </div>
           </div>
@@ -130,12 +139,12 @@ const RequestList = () => {
         <div className='grid grid-rows-2 h-full'>
 
           <div className='h-full flex flex-col'>
-            <h1 className='text-xl h-fit font-bold py-1'>Requests History</h1>
+            <h1 className='text-xl h-fit font-bold py-1'>Recent Activity Log</h1>
             <div className='shadow rounded flex flex-col h-full max-h-full bg-white p-4 overflow-auto'>
               { 
                 historyInfo.current.length > 0
                 ? historyInfo.current.map(info => (
-                      <div className={(info.gauge === 2 ? 'border-red-500' : 'border-green-500') + ' border-l-4 text-sm font-medium p-3 text-gray-800 bg-gray-50 shadow mb-2 flex flex-row justify-between'}>
+                      <div key={info._id} className={(info.gauge === 2 ? 'border-red-500' : 'border-green-500') + ' border-l-4 text-sm font-medium p-3 text-gray-800 bg-gray-50 shadow mb-2 flex flex-row justify-between'}>
                         <p>{`${info.from_lname}, ${info.from_fname}`}</p>
                         <p>{info.req_type}</p>
                       </div>
