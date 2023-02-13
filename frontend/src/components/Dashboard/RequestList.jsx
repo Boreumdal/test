@@ -19,12 +19,12 @@ const RequestList = () => {
       accessor: 'req_type'
     },
     {
-      Header: 'Name',
-      Cell: ({row}) => (
-        <>
-          <span className="item title">{`${row.original.from_fname}, ${row.original.from_lname}`}</span>
-        </>
-      )
+      Header: 'First Name',
+      accessor: 'from_fname'
+    },
+    {
+      Header: 'Last Name',
+      accessor: 'from_lname'
     },
     {
       Header: 'Student ID',
@@ -41,10 +41,6 @@ const RequestList = () => {
     {
       Header: 'Year',
       accessor: 'year_level'
-    },
-    {
-      Header: 'Created',
-      accessor: 'created_at'
     },
     {
       Header: 'Status',
@@ -170,7 +166,7 @@ const RequestList = () => {
               </div>
               <div>
                 <label className='text-sm font-medium' htmlFor="search_lastname">Search by last name:</label>
-                <input type="text" id='search_lastname' className={inputStyle} placeholder='Search by last name...' />
+                <input type="text" onChange={e => setFilter('from_lname', e.target.value)} id='search_lastname' className={inputStyle} placeholder='Search by last name...' />
               </div>
             </div>
           </div>
