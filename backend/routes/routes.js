@@ -154,4 +154,10 @@ router.post('/dashboard/schedule', async (req, res) => {
     return res.json({ msg: 'Schedule added'})
 })
 
+router.patch('/dashboard/schedule', async (req, res) => {
+    await Schedule.findOneAndUpdate({ _id: req.body.id }, { req_status: req.body.status})
+
+    return res.json({ msg: `Request ${req.body.id} has been set to done` })
+})
+
 module.exports = router

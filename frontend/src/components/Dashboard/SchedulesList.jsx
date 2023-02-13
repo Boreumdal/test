@@ -1,9 +1,20 @@
 import React from 'react'
 import { useSystem } from '../../context/SystemContext'
 import Table from '../util/Table'
+import axios from 'axios'
 
 const SchedulesList = () => {
-  const { schedules } = useSystem()
+  const { schedules, setNotif } = useSystem()
+
+  const handleDoneSchedule = id => {
+    axios.patch('http://localhost:8000/dashboard/schedule', {
+      id,
+      status: 'Done'
+    })
+      .then(response => {
+        setNotif(response.data)
+      })
+  }
 
   const columns = [
     {
@@ -45,6 +56,18 @@ const SchedulesList = () => {
     {
       Header: 'Status',
       accessor: 'req_status'
+    },
+    {
+      Header: 'Option',
+      Cell: ({ row }) => (
+        <>
+          {
+            row.original.req_status !== 'Done' && <button onClick={() => handleDoneSchedule(row.original._id)} className='ml-2 border text-xs p-1'>Done</button>
+          }
+        </>
+        
+        
+      )
     }
   ]
 

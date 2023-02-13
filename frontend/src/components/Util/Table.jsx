@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { useTable } from 'react-table'
 
 const Table = ({ arr, columns }) => {
