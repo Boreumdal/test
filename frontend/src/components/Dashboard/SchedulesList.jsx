@@ -98,60 +98,63 @@ const SchedulesList = () => {
               </select>
             </div>
             <div>
-              <label className='text-sm font-medium' htmlFor="search_lastname">Search by last name:</label>
-              <input type="text" onChange={e => setFilter('from_lname', e.target.value)} id='search_lastname' className={inputStyle} placeholder='Search by last name...' />
+              <label className='text-sm font-medium' htmlFor="search_lastname">Search by Student ID:</label>
+              <input type="text" onChange={e => setFilter('from_studentid', e.target.value)} id='search_lastname' className={inputStyle} placeholder='Student school id...' />
             </div>
           </div>
         </div>
       </div>
-      <div className='flex flex-row justify-between items-center'>
-        <h1 className='text-xl font-bold py-1'>Events List</h1>
-        { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
-        { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
-      </div>
-      
-      <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
-            <thead>
-                {
-                    headerGroups.map(headerGroup => (
-                        <tr { ...headerGroup.getHeaderGroupProps()}>
-                        {
-                            headerGroup.headers.map(column => (
-                            <th { ...column.getHeaderProps({
-                              className: column.className
-                            })}>
-                                { column.render('Header')}
-                            </th>
-                            ))
-                        }
-                        </tr>
-                    ))
-                }
-            </thead>
-            <tbody {...getTableBodyProps()}>
-                {
-                    rows.map(row => {
-                        prepareRow(row)
-                        return (
-                        <tr { ...row.getRowProps()}>
+      <div className='py-2 mt-1'>
+        <div className='flex flex-row justify-between items-center'>
+            <h1 className='text-xl font-bold py-1'>Schedule List</h1>
+            { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
+            { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
+          </div>
+          
+          <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
+                <thead>
+                    {
+                        headerGroups.map(headerGroup => (
+                            <tr { ...headerGroup.getHeaderGroupProps()}>
                             {
-                            row.cells.map(cell => (
-                                <td {...cell.getCellProps({
-                                  className: cell.column.className
+                                headerGroup.headers.map(column => (
+                                <th { ...column.getHeaderProps({
+                                  className: column.className
                                 })}>
-                                {
-                                    cell.render('Cell')
-                                }
-                                </td>
-                            ))
+                                    { column.render('Header')}
+                                </th>
+                                ))
                             }
-                        </tr>
-                        )
-                    })
-                }
-            </tbody>
-        </table>
-    </div>
+                            </tr>
+                        ))
+                    }
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {
+                        rows.map(row => {
+                            prepareRow(row)
+                            return (
+                            <tr { ...row.getRowProps()}>
+                                {
+                                row.cells.map(cell => (
+                                    <td {...cell.getCellProps({
+                                      className: cell.column.className
+                                    })}>
+                                    {
+                                        cell.render('Cell')
+                                    }
+                                    </td>
+                                ))
+                                }
+                            </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
+        </div>
+      </div>
+
   )
 }
 
