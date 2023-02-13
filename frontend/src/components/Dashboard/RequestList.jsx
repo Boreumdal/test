@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useMemo } from 'react'
+import React, { useRef, useMemo } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import { MdDelete } from 'react-icons/md'
 import axios from 'axios'
-import { useTable } from 'react-table'
+import { useFilters, useTable } from 'react-table'
 
 const RequestList = () => {
   const { notif, setNotif, requests, setRequests, setSchedules } = useSystem()
   const historyInfo = useRef([])
   const appoint_date = useRef(null)
-  
+
   const columns = [
     {
       Header: 'ID',
@@ -92,10 +92,10 @@ const RequestList = () => {
   const columsArray = useMemo(() => columns, [])
   const dataArray = useMemo(() => requests, [requests])
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setFilter } = useTable({
       columns: columsArray,
       data: dataArray
-  })
+  }, useFilters)
 
   return (
     <div>
@@ -162,7 +162,8 @@ const RequestList = () => {
             <div className='shadow h-full rounded flex flex-col justify-center gap-2 bg-white p-4'>
               <div>
                 <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
-                <select className={inputStyle} id="filter_by">
+                <select onChange={e => setFilter('req_type', e.target.value)} className={inputStyle} id="filter_by">
+                  <option value="">None</option>
                   <option value="Missing ID">Missing ID</option>
                   <option value="Clearance">Clearance</option>
                 </select>
