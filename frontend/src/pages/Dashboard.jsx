@@ -43,7 +43,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className='border w-9/12 overflow-y-auto'>
+        <div className='border w-9/12 overflow-y-auto pb-6'>
           <Routes>
             <Route path='/'>
               <Route path='student' element={<MainDymmy />} />
@@ -82,7 +82,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className='border w-9/12 overflow-y-auto'>
+        <div className='border w-9/12 overflow-y-auto pb-6'>
           <Routes>
             <Route path='/'>
               <Route path='admin/*' element={<Main />} />

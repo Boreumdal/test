@@ -111,7 +111,7 @@ const RequestList = () => {
             { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-2 font-medium'>{ notif.msg }</p> }
             { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
           </div>
-          <div className='shadow rounded flex flex-col justify-center bg-white h-full px-5'>
+          <div className='shadow mt-2 rounded flex flex-col justify-center bg-white h-full px-5'>
             <div>
               <div className='flex justify-between items-center'>
                 <h3 className='text-xs font-bold text-gray-500 py-2'>Request Info:</h3>
@@ -145,10 +145,9 @@ const RequestList = () => {
         </div>
 
         <div className='grid grid-rows-2 h-full'>
-
           <div className='h-full flex flex-col'>
             <h1 className='text-xl h-fit font-bold py-1'>Recent Activity Log</h1>
-            <div className='shadow rounded flex flex-col h-full max-h-full bg-white p-4 overflow-auto'>
+            <div className='shadow mt-2 rounded flex flex-col h-full max-h-full bg-white p-4 overflow-auto'>
               { 
                 historyInfo.current.length > 0
                 ? historyInfo.current.map(info => (
@@ -163,7 +162,7 @@ const RequestList = () => {
           </div>
 
           <div className='h-full flex flex-col'>
-            <h1 className='text-xl h-fit font-bold py-1'>Options</h1>
+            <h1 className='text-xl h-fit font-bold py-2'>Options</h1>
             <div className='shadow h-full rounded flex flex-col justify-center gap-2 bg-white p-4'>
               <div>
                 <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
@@ -183,7 +182,7 @@ const RequestList = () => {
         </div>
       </div>
 
-      <div className='py-2'>
+      <div className='py-2 mt-1'>
         <h1 className='text-xl font-bold py-1'>Requests Table</h1>
         <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
         <thead>

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { useTable } from 'react-table'
+import { useTable, useFilters } from 'react-table'
 import { useSystem } from '../../context/SystemContext'
 import axios from 'axios'
 import { BsCheckCircleFill } from 'react-icons/bs'
@@ -76,13 +76,34 @@ const SchedulesList = () => {
   const columsArray = useMemo(() => columns, [])
   const dataArray = useMemo(() => schedules.map(a => a).filter(sched => sched.req_status === 'Scheduled'), [schedules])
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setFilter } = useTable({
       columns: columsArray,
       data: dataArray
-  })
+  }, useFilters )
+
+  const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
 
   return (
     <div>
+      <div>
+        <div className='h-full flex flex-col'>
+          <h1 className='text-xl h-fit font-bold py-1'>Options</h1>
+          <div className='shadow h-full rounded mt-2 grid grid-cols-2 gap-2 bg-white items-center p-4'>
+            <div>
+              <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
+              <select onChange={e => setFilter('req_type', e.target.value)} className={inputStyle} id="filter_by">
+                <option value="">None</option>
+                <option value="Missing ID">Missing ID</option>
+                <option value="Clearance">Clearance</option>
+              </select>
+            </div>
+            <div>
+              <label className='text-sm font-medium' htmlFor="search_lastname">Search by last name:</label>
+              <input type="text" onChange={e => setFilter('from_lname', e.target.value)} id='search_lastname' className={inputStyle} placeholder='Search by last name...' />
+            </div>
+          </div>
+        </div>
+      </div>
       <div className='flex flex-row justify-between items-center'>
         <h1 className='text-xl font-bold py-1'>Events List</h1>
         { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
