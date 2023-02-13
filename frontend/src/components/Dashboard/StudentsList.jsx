@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useSystem } from '../../context/SystemContext'
-import Table from '../util/Table'
+import { useTable } from 'react-table'
 
 const StudentsList = () => {
   const { students } = useSystem()
@@ -8,39 +8,94 @@ const StudentsList = () => {
   const columns = [
     {
       Header: 'ID',
-      accessor: '_id'
+      accessor: '_id',
+      className: 'text-left'
     },
     {
       Header: 'First Name',
-      accessor: 'first_name'
+      accessor: 'first_name',
+      className: 'text-left'
     },
     {
       Header: 'Last Name',
-      accessor: 'last_name'
-    },
-    {
-      Header: 'Gender',
-      accessor: 'gender'
-    },
-    {
-      Header: 'Course',
-      accessor: 'course'
+      accessor: 'last_name',
+      className: 'text-left'
     },
     {
       Header: 'Branch',
-      accessor: 'branch'
+      accessor: 'branch',
+      className: 'text-left'
+    },
+    {
+      Header: 'Gender',
+      accessor: 'gender',
+      className: 'text-center'
+    },
+    {
+      Header: 'Course',
+      accessor: 'course',
+      className: 'text-center'
     },
     {
       Header: 'Year',
-      accessor: 'year_level'
+      accessor: 'year_level',
+      className: 'text-center'
     }
   ]
+
+  const columsArray = useMemo(() => columns, [])
+  const dataArray = useMemo(() => students, [])
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+      columns: columsArray,
+      data: dataArray
+  })
   
   return (
     <div>
       <h1 className='text-xl font-bold py-1'>Students List</h1>
           
-      <Table arr={students} columns={columns} />
+      <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
+            <thead>
+                {
+                    headerGroups.map(headerGroup => (
+                        <tr { ...headerGroup.getHeaderGroupProps()}>
+                        {
+                            headerGroup.headers.map(column => (
+                            <th { ...column.getHeaderProps({
+                                className: column.className
+                            })}>
+                                { column.render('Header')}
+                            </th>
+                            ))
+                        }
+                        </tr>
+                    ))
+                }
+            </thead>
+            <tbody {...getTableBodyProps()}>
+                {
+                    rows.map(row => {
+                        prepareRow(row)
+                        return (
+                        <tr { ...row.getRowProps()}>
+                            {
+                            row.cells.map(cell => (
+                                <td { ...cell.getCellProps({
+                                    className: cell.column.className
+                                })}>
+                                {
+                                    cell.render('Cell')
+                                }
+                                </td>
+                            ))
+                            }
+                        </tr>
+                        )
+                    })
+                }
+            </tbody>
+        </table>
     </div>
   )
 }

@@ -44,8 +44,8 @@ table {
 }
 
 td, th {
-    border-bottom: 1px solid rgb(238, 238, 238);
     white-space: nowrap;
+    padding: 15px 1rem;
 }
 
 .table-layout-1 thead {
@@ -55,15 +55,14 @@ td, th {
 .table-layout-1 thead th {
     max-width: 200px;
     width: 200px;
-    padding: 1rem 0;
+    /* padding: 1rem 0; */
 }
 .table-layout-1 tbody td {
     max-width: 200px;
     width: 200px;
-    padding: .8rem .6rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 19px;
+    /* padding: .8rem .6rem; */
 }
 
 .table-layout-1 tbody tr:hover {
@@ -84,6 +83,7 @@ td, th {
     display: grid;
     grid-template-columns: 25% 75%;
 }
+
 
 /* COLORS */
 .bg-transparent {

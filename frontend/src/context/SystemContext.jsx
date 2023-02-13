@@ -14,7 +14,7 @@ export const SysContext = ({ children }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             setNotif({})
-        }, 2700)
+        }, 3100)
         return () => clearInterval(interval)
     }, [])
     

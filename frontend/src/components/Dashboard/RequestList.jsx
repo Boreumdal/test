@@ -12,39 +12,48 @@ const RequestList = () => {
   const columns = [
     {
       Header: 'ID',
-      accessor: '_id'
+      accessor: '_id',
+      className: 'text-left'
     },
     {
       Header: 'Topic',
-      accessor: 'req_type'
+      accessor: 'req_type',
+      className: 'text-left'
     },
     {
       Header: 'First Name',
-      accessor: 'from_fname'
+      accessor: 'from_fname',
+      className: 'text-left'
     },
     {
       Header: 'Last Name',
-      accessor: 'from_lname'
+      accessor: 'from_lname',
+      className: 'text-left'
     },
     {
       Header: 'Student ID',
-      accessor: 'from_studentid'
+      accessor: 'from_studentid',
+      className: 'text-left'
     },
     {
       Header: 'Branch',
-      accessor: 'from_branch'
+      accessor: 'from_branch',
+      className: 'text-left'
     },
     {
       Header: 'Course',
-      accessor: 'course'
+      accessor: 'course',
+      className: 'text-center'
     },
     {
       Header: 'Year',
-      accessor: 'year_level'
+      accessor: 'year_level',
+      className: 'text-center'
     },
     {
       Header: 'Status',
-      accessor: 'req_status'
+      accessor: 'req_status',
+      className: 'text-center'
     }
 
   ]
@@ -177,13 +186,15 @@ const RequestList = () => {
       <div className='py-2'>
         <h1 className='text-xl font-bold py-1'>Requests Table</h1>
         <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
-            <thead>
+        <thead>
                 {
                     headerGroups.map(headerGroup => (
                         <tr { ...headerGroup.getHeaderGroupProps()}>
                         {
                             headerGroup.headers.map(column => (
-                            <th { ...column.getHeaderProps()}>
+                            <th { ...column.getHeaderProps({
+                                className: column.className
+                            })}>
                                 { column.render('Header')}
                             </th>
                             ))
@@ -200,7 +211,9 @@ const RequestList = () => {
                         <tr { ...row.getRowProps()}>
                             {
                             row.cells.map(cell => (
-                                <td { ...cell.getCellProps()}>
+                                <td { ...cell.getCellProps({
+                                    className: cell.column.className
+                                })}>
                                 {
                                     cell.render('Cell')
                                 }

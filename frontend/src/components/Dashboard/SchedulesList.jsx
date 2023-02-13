@@ -5,7 +5,7 @@ import axios from 'axios'
 import { BsCheckCircleFill } from 'react-icons/bs'
 
 const SchedulesList = () => {
-  const { schedules, setNotif, setSchedules } = useSystem()
+  const { schedules, setNotif, setSchedules, notif } = useSystem()
 
   const handleDoneSchedule = id => {
     axios.patch('http://localhost:8000/dashboard/schedule', {
@@ -24,53 +24,52 @@ const SchedulesList = () => {
   const columns = [
     {
       Header: 'Topic',
-      accessor: 'req_type'
-    },
-    {
-      Header: 'Appointment',
-      accessor: 'appointed_date'
+      accessor: 'req_type',
+      className: 'text-left'
     },
     {
       Header: 'Name',
+      className: 'text-left',
       Cell: ({row}) => (
         <>
-          <span className="item title">{`${row.original.from_fname}, ${row.original.from_lname}`}</span>
+          <span>{`${row.original.from_fname}, ${row.original.from_lname}`}</span>
         </>
       )
     },
     {
-      Header: 'Student ID',
-      accessor: 'from_studentid'
+      Header: 'ID',
+      accessor: 'from_studentid',
+      className: 'text-left'
     },
     {
       Header: 'Branch',
-      accessor: 'from_branch'
+      accessor: 'from_branch',
+      className: 'text-left'
+    },
+    {
+      Header: 'Appointment',
+      accessor: 'appointed_date',
+      className: 'text-center'
     },
     {
       Header: 'Course',
-      accessor: 'course'
+      accessor: 'course',
+      className: 'text-center'
     },
     {
       Header: 'Year',
-      accessor: 'year_level'
-    },
-    {
-      Header: 'Created',
-      accessor: 'created_at'
+      accessor: 'year_level',
+      className: 'text-center'
     },
     {
       Header: 'Status',
-      accessor: 'req_status'
+      accessor: 'req_status',
+      className: 'text-center'
     },
     {
       Header: 'Option',
-      Cell: ({ row }) => (
-        <>
-          {
-            row.original.req_status !== 'Done' && <button onClick={() => handleDoneSchedule(row.original._id)} className='ml-2 text-green-500 text-xl'><BsCheckCircleFill /></button>
-          }
-        </>
-      )
+      className: 'text-center',
+      Cell: ({ row }) => <>{ row.original.req_status !== 'Done' && <button onClick={() => handleDoneSchedule(row.original._id)} className='text-green-500 text-lg'><BsCheckCircleFill /></button> }</>
     }
   ]
 
@@ -84,7 +83,12 @@ const SchedulesList = () => {
 
   return (
     <div>
-      <h1 className='text-xl font-bold py-1'>Events List</h1>
+      <div className='flex flex-row justify-between items-center'>
+        <h1 className='text-xl font-bold py-1'>Events List</h1>
+        { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
+        { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
+      </div>
+      
       <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
             <thead>
                 {
@@ -92,7 +96,9 @@ const SchedulesList = () => {
                         <tr { ...headerGroup.getHeaderGroupProps()}>
                         {
                             headerGroup.headers.map(column => (
-                            <th { ...column.getHeaderProps()}>
+                            <th { ...column.getHeaderProps({
+                              className: column.className
+                            })}>
                                 { column.render('Header')}
                             </th>
                             ))
@@ -109,7 +115,9 @@ const SchedulesList = () => {
                         <tr { ...row.getRowProps()}>
                             {
                             row.cells.map(cell => (
-                                <td { ...cell.getCellProps()}>
+                                <td {...cell.getCellProps({
+                                  className: cell.column.className
+                                })}>
                                 {
                                     cell.render('Cell')
                                 }

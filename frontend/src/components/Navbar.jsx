@@ -20,7 +20,7 @@ const Navbar = () => {
         <Link to='/' className='font-extrabold text-4xl'>SCMS</Link>
       </div>
       <div>
-        { token && <button onClick={logout} className='border-2 border-red-500 hover:bg-red-500 hover:text-white text-red-500 bg-transparent py-1 px-3 rounded font-semibold duration-300 text-sm shadow-sm'>Logout</button> }
+        { token && <button onClick={logout} className='border-2 border-red-500 bg-red-500 text-white hover:text-red-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-300 text-sm shadow-sm'>Logout</button> }
       </div>
     </nav>
   )
