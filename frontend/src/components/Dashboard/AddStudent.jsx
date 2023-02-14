@@ -4,12 +4,12 @@ import axios from 'axios'
 import { autoCapital } from '../../utilities/UtilityFunction'
 
 const AddStudent = () => {
-    const { data, notif, setNotif } = useSystem()
+    const { data, notif, setNotif, setStudents } = useSystem()
     const [img, setImg] = useState('')
     const [fname, setFname] = useState('')
     const [mname, setMname] = useState('')
     const [lname, setLname] = useState('')
-    const [gender, setGender] = useState('Male')
+    const [gender, setGender] = useState('M')
     const [studentId, setStudentId] = useState('')
     const [year, setYear] = useState(1)
     const [course, setCourse] = useState('BSIT')
@@ -28,7 +28,7 @@ const AddStudent = () => {
         setFname('')
         setMname('')
         setLname('')
-        setGender('Male')
+        setGender('M')
         setStudentId('')
         setYear(1)
         setCourse('BSIT')
@@ -69,6 +69,8 @@ const AddStudent = () => {
             .then(response => {
                 setNotif(response.data)
                 reset()
+                axios.get('http://localhost:8000/dashboard/student')
+                    .then(response => setStudents(response.data.students))
             })
         } else {
             setNotif({ err: 'Please fill up all fields before adding'})
@@ -100,8 +102,8 @@ const AddStudent = () => {
                     <div className='input-field-addstudent'>
                         <label htmlFor="">Gender:</label>
                         <select className={inputStyle} value={gender} onChange={e => setGender(e.target.value)}>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
                         </select>
                     </div>
                 </div>

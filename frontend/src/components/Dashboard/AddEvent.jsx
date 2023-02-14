@@ -4,7 +4,7 @@ import axios from 'axios'
 import { autoCapital } from '../../utilities/UtilityFunction'
 
 const AddEvent = () => {
-    const { data, notif, setNotif } = useSystem()
+    const { data, notif, setNotif, setEvents } = useSystem()
     const [img, setImg] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -34,6 +34,8 @@ const AddEvent = () => {
                 .then(response => {
                     setNotif(response.data)
                     reset()
+                    axios.get('http://localhost:8000/dashboard/event')
+                        .then(response => setEvents(response.data.events))
                 })
         } else {
             setNotif({ err: 'Please fill up all fields before adding'})

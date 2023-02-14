@@ -158,6 +158,11 @@ router.get(`/dashboard/schedule`, async (req, res) => {
 
     return res.json({ schedules })
 })
+router.get(`/dashboard/event`, async (req, res) => {
+    const events = await Event.find({})
+
+    return res.json({ events })
+})
 
 router.delete('/dashboard/request', async (req, res) => {
     await Request.findByIdAndDelete({ _id: req.body._id})
