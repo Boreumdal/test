@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { useTable, useFilters } from 'react-table'
 import { useSystem } from '../../context/SystemContext'
 import axios from 'axios'
 import { BsCheckCircleFill } from 'react-icons/bs'
 
-const SchedulesList = () => {
+const SchedulesList = ({selectValue, searchValue}) => {
   const { schedules, setNotif, setSchedules, notif } = useSystem()
 
   const handleDoneSchedule = id => {
@@ -83,27 +83,17 @@ const SchedulesList = () => {
 
   const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
 
+  useEffect(() => {
+    if (selectValue) setFilter('req_type', selectValue)
+  }, [selectValue])
+  
+  useEffect(() => {
+    if (searchValue) setFilter('from_studentid', searchValue)
+    
+  }, [searchValue])
+
   return (
     <div>
-      <div>
-        <div className='h-full flex flex-col'>
-          <h1 className='text-xl h-fit font-bold py-1'>Options</h1>
-          <div className='shadow h-full rounded mt-2 grid grid-cols-2 gap-2 bg-white items-center p-4'>
-            <div>
-              <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
-              <select onChange={e => setFilter('req_type', e.target.value)} className={inputStyle} id="filter_by">
-                <option value="">None</option>
-                <option value="Missing ID">Missing ID</option>
-                <option value="Clearance">Clearance</option>
-              </select>
-            </div>
-            <div>
-              <label className='text-sm font-medium' htmlFor="search_studentid">Search by Student ID:</label>
-              <input type="text" onChange={e => setFilter('from_studentid', e.target.value)} id='search_studentid' className={inputStyle} placeholder='Student school id...' />
-            </div>
-          </div>
-        </div>
-      </div>
       <div className='py-2 mt-1'>
         <div className='flex flex-row justify-between items-center'>
             <h1 className='text-xl font-bold py-1'>Schedule List</h1>

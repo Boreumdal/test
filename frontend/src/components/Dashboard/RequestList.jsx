@@ -115,7 +115,7 @@ const RequestList = () => {
             <div>
               <div className='flex justify-between items-center'>
                 <h3 className='text-xs font-bold text-gray-500 py-2'>Request Info:</h3>
-                <button onClick={() => handleDelete(requests[0]._id, 2)} className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button>
+                <button onDoubleClick={() => handleDelete(requests[0]._id, 2)} title='Double click to delete' className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button>
               </div>
               <p className='request-info items-center pb-1'><span className='text-sm font-medium'>Concern:</span><span>{ requests[0].req_type }</span></p> 
               <p className='request-info items-center pb-1'><span className='self-start text-sm font-medium'>Message:</span> <span className='h-24 overflow-y-auto'>{ requests[0].message }</span></p>
@@ -147,17 +147,25 @@ const RequestList = () => {
         <div className='grid grid-rows-2 h-full'>
           <div className='h-full flex flex-col'>
             <h1 className='text-xl h-fit font-bold py-1'>Recent Activity Log</h1>
-            <div className='shadow mt-2 rounded flex flex-col h-full max-h-full bg-white p-4 overflow-auto'>
-              { 
-                historyInfo.current.length > 0
-                ? historyInfo.current.map(info => (
-                      <div key={info._id} className={(info.gauge === 2 ? 'border-red-500' : 'border-green-500') + ' border-l-4 text-sm font-medium p-3 text-gray-800 bg-gray-50 shadow mb-2 flex flex-row justify-between'}>
-                        <p>{`${info.from_lname}, ${info.from_fname}`}</p>
-                        <p>{info.req_type}</p>
-                      </div>
-                    ))
-                : <p className='font-medium'>No history recorded</p> 
-              }
+            <div className='shadow mt-2 rounded flex flex-col h-full justify-between max-h-full bg-white p-4 '>
+              <div>
+                { 
+                  historyInfo.current.length > 0
+                  ? historyInfo.current.map(info => (
+                        <div key={info._id} className={(info.gauge === 2 ? 'border-red-500' : 'border-green-500') + ' border-l-4 text-sm font-medium p-3 text-gray-800 bg-gray-50 shadow mb-2 flex flex-row justify-between'}>
+                          <p>{`${info.from_lname}, ${info.from_fname}`}</p>
+                          <p>{info.req_type}</p>
+                        </div>
+                      ))
+                  : <p className='font-medium'>No history recorded</p> 
+                }
+              </div>
+              <div className='flex flex-row gap-2 items-center'>
+                <div className='font-bold text-xs mr-1'>Legends:</div>
+                <div className='text-sm font-medium py-1 flex flex-row items-center gap-2'><div className='w-[10px] h-[10px] bg-green-500 rounded-full'></div><span>Scheduled</span></div>
+                <div className='text-sm font-medium py-1 flex flex-row items-center gap-2'><div className='w-[10px] h-[10px] bg-red-500 rounded-full'></div><span>Deleted</span></div>
+              </div>
+
             </div>
           </div>
 
@@ -166,7 +174,10 @@ const RequestList = () => {
             <div className='shadow h-full rounded flex flex-col justify-center gap-2 bg-white p-4'>
               <div>
                 <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
-                <select onChange={e => setFilter('req_type', e.target.value)} className={inputStyle} id="filter_by">
+                <select onChange={e => {
+                  setFilter('req_type', e.target.value)
+                  console.log(e.target.value)
+                }} className={inputStyle} id="filter_by">
                   <option value="">None</option>
                   <option value="Missing ID">Missing ID</option>
                   <option value="Clearance">Clearance</option>

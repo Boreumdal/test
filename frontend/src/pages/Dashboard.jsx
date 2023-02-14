@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSystem } from '../context/SystemContext'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { BsFillHouseFill, BsPersonPlusFill, BsFillCalendarEventFill } from "react-icons/bs"
 import AddEvent from '../components/Dashboard/AddEvent'
 import Main from '../components/Dashboard/Main'
@@ -13,6 +13,17 @@ import EditStudent from '../components/Dashboard/EditStudent'
 const Dashboard = () => {
   const { data } = useSystem()
   const navigationLinkStyle = ' text-sm mt-1 py-3 px-4 font-medium flex items-center gap-3'
+  const location = useLocation()
+
+  const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
+
+  const [selectValue, setSelectValue] = useState('')
+  const [searchValue, setSearchValue] = useState('')
+
+  useEffect(() => {
+    setSelectValue('')
+    setSearchValue('')
+  }, [location])
 
   return data.role === '49afe28d956804de0fde8f7bcabd749f495193c53fc5d802355c96ad6f3f46c37e72d18b9830d61de80c7b01f9' 
     ? (
@@ -82,11 +93,72 @@ const Dashboard = () => {
               </NavLink>
             </div>
           </div>
+          {selectValue}
+          <div>
+            {
+              location.pathname === '/dashboard/admin' ? (
+                  <div className='h-full flex flex-col'>
+                    <div className='shadow h-full rounded mt-2 grid grid-rows-2 gap-2 bg-white items-center p-4'>
+                      <div>
+                        <label className='text-sm font-medium' htmlFor="filter_by">Branch filter:</label>
+                        <select onChange={e => setSelectValue(e.target.value)} value={selectValue} className={inputStyle} id="filter_by">
+                          <option value="">None</option>
+                          <option value="Taytay">Taytay</option>
+                          <option value="Cainta">Cainta</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className='text-sm font-medium' htmlFor="search_lastname">Search by student last name:</label>
+                        <input type="text" onChange={e => setSearchValue(e.target.value)} value={searchValue} id='search_lastname' className={inputStyle} placeholder='Student last name...' />
+                      </div>
+                    </div>
+                  </div>
+              ) : null
+            }
+            {
+              location.pathname === '/dashboard/admin/event' ? (
+                  <div className='shadow h-full rounded mt-2 grid grid-rows-2 gap-2 bg-white items-center p-4'>
+                    <div>
+                      <label className='text-sm font-medium' htmlFor="filter_by">Filter by campus:</label>
+                      <select onChange={e => setSelectValue(e.target.value)} value={selectValue} className={inputStyle} id="filter_by">
+                        <option value="">None</option>
+                        <option value="Main">Cainta</option>
+                        <option value="Taytay">Taytay</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className='text-sm font-medium' htmlFor="search_title">Search by Event Title:</label>
+                      <input type="text" onChange={e => setSearchValue(e.target.value)} value={searchValue} id='search_title' className={inputStyle} placeholder='Search by event title...' />
+                    </div>
+                  </div>
+              ) : null
+            }
+            {
+              location.pathname === '/dashboard/admin/schedule' ? (
+                <div className='h-full flex flex-col'>
+                  <div className='shadow h-full rounded mt-2 grid grid-rows-2 gap-2 bg-white items-center p-4'>
+                    <div>
+                      <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
+                      <select onChange={e => setSelectValue(e.target.value)} value={selectValue} className={inputStyle} id="filter_by">
+                        <option value="">None</option>
+                        <option value="Missing ID">Missing ID</option>
+                        <option value="Clearance">Clearance</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className='text-sm font-medium' htmlFor="search_studentid">Search by Student ID:</label>
+                      <input type="text" onChange={e => setSearchValue(e.target.value)}  value={searchValue} id='search_studentid' className={inputStyle} placeholder='Student school id...' />
+                    </div>
+                  </div>
+                </div>
+              ) : null
+            }
+          </div>
         </div>
         <div className='border w-9/12 overflow-y-auto pb-6'>
           <Routes>
             <Route path='/'>
-              <Route path='admin/*' element={<Main />} />
+              <Route path='admin/*' element={<Main selectValue={selectValue} searchValue={searchValue} />} />
               <Route path='add/student' element={<AddStudent />} />
               <Route path='edit/student' element={<EditStudent />} />
               <Route path='add/event' element={<AddEvent />} />
