@@ -2,28 +2,31 @@ import React, { useState, useEffect } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import axios from 'axios'
 import { autoCapital } from '../../utilities/UtilityFunction'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-const AddStudent = () => {
-    const { data, notif, setNotif } = useSystem()
+const EditStudent = () => {
+    const { data, notif, setNotif, setStudents } = useSystem()
     const [img, setImg] = useState('')
     const [fname, setFname] = useState('')
     const [mname, setMname] = useState('')
     const [lname, setLname] = useState('')
-    const [gender, setGender] = useState('Male')
+    const [gender, setGender] = useState('')
     const [studentId, setStudentId] = useState('')
     const [year, setYear] = useState(1)
-    const [course, setCourse] = useState('BSIT')
-    const [branch, setBranch] = useState('Cainta Main')
-    const [status, setStatus] = useState('Regular')
+    const [course, setCourse] = useState('')
+    const [branch, setBranch] = useState('')
+    const [status, setStatus] = useState('')
     const [contact, setContact] = useState('')
     const [email, setEmail] = useState('')
     const [uname, setUname] = useState('')
-    const [password, setPassword] = useState('')
     const [idAsUsername, setIdAsUsername] = useState(false)
-
+    
     const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
     const defaultImage = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
     
+    const location = useLocation()
+    const navigate = useNavigate()
+
     const reset = () => {
         setFname('')
         setMname('')
@@ -37,9 +40,24 @@ const AddStudent = () => {
         setContact('')
         setEmail('')
         setUname('')
-        setPassword('')
         setImg('')
     }
+
+    useEffect(() => {
+        setFname(location.state.first_name)
+        setMname(location.state.middle_name)
+        setLname(location.state.last_name)
+        setGender(location.state.gender)
+        setStudentId(location.state.student_id)
+        setYear(location.state.year_level)
+        setCourse(location.state.course)
+        setBranch(location.state.branch)
+        setStatus(location.state.status)
+        setContact(location.state.contact)
+        setEmail(location.state.email)
+        setUname(location.state.student_username)
+        setImg(location.state.picture)
+    }, [])
 
     useEffect(() => {
         if (idAsUsername){
@@ -49,30 +67,44 @@ const AddStudent = () => {
 
     const handleAddStudent = e => {
         e.preventDefault()
-        if (fname && mname && lname && gender && studentId && year && course && branch && status && contact && email && img && password){
-            axios.post('http://localhost:8000/dashboard/student/add', {
+        if (fname && mname && lname && gender && studentId && year && course && branch && status && contact && email && img){
+            axios.patch('http://localhost:8000/dashboard/student/edit', {
+                ...location.state,
                 first_name: autoCapital(fname),
                 middle_name: autoCapital(mname),
                 last_name: autoCapital(lname),
                 gender,
-                student_id: studentId,
+                student_id: +studentId,
                 year_level: year,
                 course,
                 branch,
                 status,
-                contact,
+                contact: +contact,
                 email,
                 profile: img ? img : defaultImage,
-                student_username: uname,
-                password
+                student_username: uname
             })
-            .then(response => {
-                setNotif(response.data)
-                reset()
+            .then(() => {
+                axios.get('http://localhost:8000/dashboard/student')
+                    .then(response => {
+                        setStudents(response.data.students)
+                        navigate('/dashboard/admin')
+                    })
             })
         } else {
             setNotif({ err: 'Please fill up all fields before adding'})
         }
+    }
+
+    const handleEditDelete = id => {
+        axios.delete('http://localhost:8000/dashboard/student/edit', { data: { id }})
+            .then(() => {
+                axios.get('http://localhost:8000/dashboard/student')
+                    .then(response => {
+                        setStudents(response.data.students)
+                        navigate('/dashboard/admin')
+                    })
+            })
     }
 
     const idAsUsernameFunc = e => {
@@ -83,9 +115,12 @@ const AddStudent = () => {
 
   return (
     <div className='mx-6 mt-2'>
-        <h1 className='text-3xl font-extrabold py-2'>Add Student</h1>
+        <div className='flex flex-row justify-between items-center'>
+            <h1 className='text-3xl font-extrabold py-2'>Edit Student</h1>
+            <button onClick={() => navigate(-1)} className='text-blue-500 text-sm font-medium'>Go back...</button>
+        </div>
         <form onSubmit={handleAddStudent} className='bg-white shadow p-6 text-sm mt-2'>
-            <p className='font-medium py-1'>Please fill out the input fields...</p>
+            <p className='font-medium py-1'>Edit student infomation...</p>
             <div className='flex justify-between gap-4 border-b py-2'>
                 <div className='w-1/2'>
                     <h3 className='text-xs font-bold text-gray-500 py-2'>Personal Information</h3>
@@ -179,22 +214,23 @@ const AddStudent = () => {
                     </div>
                     <div className='input-field-addstudent'>
                         <label htmlFor="password">Password:</label>
-                        <input type="password" onChange={e => setPassword(e.target.value)} value={password} className={inputStyle} id='password' placeholder='Password...' />
+                        <input type="password" className={inputStyle} id='password' placeholder='Changing password is not allowed' disabled />
                     </div>
                 </div>
             </div>
             <div className='flex flex-row justify-between items-center mt-2 gap-2'>
                 <div className='flex items-center gap-2'>
-                    <button type="submit" className='border-2 border-green-500 text-white bg-green-500 hover:text-green-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Add Student</button>
+                    <button type="submit" className='border-2 border-blue-500 text-white bg-blue-500 hover:text-blue-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Save Edit</button>
                     <span className='font-medium text-xs text-gray-400'>Your admin id is: { data._id }</span>
                 </div>
                 { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
                 { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
-
+                
             </div>
         </form>
+        <button onClick={() => handleEditDelete(location.state._id)} className='py-1 px-3 rounded text-red-500 font-semibold duration-200 text-sm'>Delete account...</button>
     </div>
   )
 }
 
-export default AddStudent
+export default EditStudent

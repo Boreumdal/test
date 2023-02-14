@@ -95,6 +95,12 @@ router.post('/dashboard/student/add', async (req, res) => { // going to student 
     })
 })
 
+router.patch('/dashboard/student/edit', async (req, res) => {
+    await Student.findOneAndUpdate({ _id: req.body._id }, { ...req.body })
+
+    return res.json({ msg: `Student ${req.body.student_id} updated` })
+})
+
 // ADMIN: ADD EVENT
 router.post('/dashboard/event/add', async (req, res) => { // going to event collection
     const event = new Event({ ...req.body })
@@ -113,7 +119,19 @@ router.get('/dashboard/all', async (req, res) => {
     return res.json({ students, events, requests, schedules })
 })
 
-// FETCHES INDIVIDUAL STUDENT REQUEST TICKET
+// ADMIN: FETCHES STUDENTS
+router.get('/dashboard/student', async (req, res) => {
+    const students = await Student.find({})
+    
+    return res.json({ students })
+})
+
+router.delete('/dashboard/student/edit', async (req, res) => {
+    await Student.findOneAndDelete({ _id: req.body.id })
+    return res.json({ msg: 'deleted' })
+})
+
+// REQUEST: FETCHES INDIVIDUAL STUDENT OWN REQUEST TICKET BY ID
 router.get('/dashboard/student/:id', async (req, res) => {
     const { id } = req.params
     const requests = await Request.find({ from_id: id})

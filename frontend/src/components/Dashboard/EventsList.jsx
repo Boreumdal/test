@@ -51,15 +51,15 @@ const EventsList = () => {
           <div className='shadow h-full rounded mt-2 grid grid-cols-2 gap-2 bg-white items-center p-4'>
             <div>
               <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
-              <select onChange={e => setFilter('req_type', e.target.value)} className={inputStyle} id="filter_by">
+              <select onChange={e => setFilter('campus', e.target.value)} className={inputStyle} id="filter_by">
                 <option value="">None</option>
-                <option value="Missing ID">Missing ID</option>
-                <option value="Clearance">Clearance</option>
+                <option value="Main">Cainta</option>
+                <option value="Taytay">Taytay</option>
               </select>
             </div>
             <div>
-              <label className='text-sm font-medium' htmlFor="search_lastname">Search by last name:</label>
-              <input type="text" onChange={e => setFilter('from_lname', e.target.value)} id='search_lastname' className={inputStyle} placeholder='Search by last name...' />
+              <label className='text-sm font-medium' htmlFor="search_title">Search by Event Title:</label>
+              <input type="text" onChange={e => setFilter('title', e.target.value)} id='search_title' className={inputStyle} placeholder='Search by event title...' />
             </div>
           </div>
         </div>

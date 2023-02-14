@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import { useTable } from 'react-table'
+import { useNavigate } from 'react-router-dom'
 
 const StudentsList = () => {
   const { students } = useSystem()
+  const navigate = useNavigate()
 
   const columns = [
     {
@@ -40,11 +42,20 @@ const StudentsList = () => {
       Header: 'Year',
       accessor: 'year_level',
       className: 'text-center'
+    },
+    {
+      Header: 'Action',
+      className: 'text-center',
+      Cell: ({ row }) => <button className='shadow rounded px-2 bg-orange-500 text-sm text-white' onClick={() => handleEditStudent(row.original)}>Edit</button>
     }
   ]
 
+  const handleEditStudent = info => {
+    navigate('/dashboard/edit/student', { state: info})
+  }
+
   const columsArray = useMemo(() => columns, [])
-  const dataArray = useMemo(() => students, [])
+  const dataArray = useMemo(() => students, [students])
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
       columns: columsArray,

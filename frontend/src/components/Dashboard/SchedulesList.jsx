@@ -98,8 +98,8 @@ const SchedulesList = () => {
               </select>
             </div>
             <div>
-              <label className='text-sm font-medium' htmlFor="search_lastname">Search by Student ID:</label>
-              <input type="text" onChange={e => setFilter('from_studentid', e.target.value)} id='search_lastname' className={inputStyle} placeholder='Student school id...' />
+              <label className='text-sm font-medium' htmlFor="search_studentid">Search by Student ID:</label>
+              <input type="text" onChange={e => setFilter('from_studentid', e.target.value)} id='search_studentid' className={inputStyle} placeholder='Student school id...' />
             </div>
           </div>
         </div>

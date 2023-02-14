@@ -8,6 +8,7 @@ import AddStudent from '../components/Dashboard/AddStudent'
 import AddRequest from '../components/Dashboard/AddRequest'
 import Profile from '../components/Dashboard/Profile'
 import MainDymmy from '../components/Dashboard/MainDymmy'
+import EditStudent from '../components/Dashboard/EditStudent'
 
 const Dashboard = () => {
   const { data } = useSystem()
@@ -86,7 +87,8 @@ const Dashboard = () => {
           <Routes>
             <Route path='/'>
               <Route path='admin/*' element={<Main />} />
-              <Route path='add/student' element={<AddStudent  />} />
+              <Route path='add/student' element={<AddStudent />} />
+              <Route path='edit/student' element={<EditStudent />} />
               <Route path='add/event' element={<AddEvent />} />
             </Route>
           </Routes>
