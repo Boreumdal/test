@@ -56,7 +56,7 @@ const EditStudent = () => {
         setContact(location.state.contact)
         setEmail(location.state.email)
         setUname(location.state.student_username)
-        setImg(location.state.picture)
+        setImg(location.state.profile)
     }, [])
 
     useEffect(() => {
@@ -74,12 +74,12 @@ const EditStudent = () => {
                 middle_name: autoCapital(mname),
                 last_name: autoCapital(lname),
                 gender,
-                student_id: +studentId,
+                student_id: studentId,
                 year_level: year,
                 course,
                 branch,
                 status,
-                contact: +contact,
+                contact: contact,
                 email,
                 profile: img ? img : defaultImage,
                 student_username: uname
@@ -87,7 +87,7 @@ const EditStudent = () => {
             .then(() => {
                 axios.get('http://localhost:8000/dashboard/student')
                     .then(response => {
-                        setStudents(response.data.students)
+                        setStudents(response.data.students.reverse())
                         navigate('/dashboard/admin')
                     })
             })

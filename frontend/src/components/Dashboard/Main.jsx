@@ -25,7 +25,7 @@ const Main = () => {
                 <p className='text-sm '>Request</p>
             </Link>
             <Link to='/dashboard/admin/schedule' className='duration-200 w-full bg-4 shadow-sm rounded-md flex flex-col pl-8 justify-center h-[130px]'>
-                <p className='font-bold text-2xl'>{ schedules.length > 0 ? schedules.filter(sched => sched.req_status === 'Scheduled').length : null }</p>
+                <p className='font-bold text-2xl'>{ schedules.length > 0 ? schedules.filter(sched => sched.req_status === 'Scheduled').length : '0' }</p>
                 <p className='text-sm '>Scheduled</p>
             </Link>
         </div>

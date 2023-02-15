@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSystem } from '../context/SystemContext'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { BsFillHouseFill, BsPersonPlusFill, BsFillCalendarEventFill, BsPersonFill } from "react-icons/bs"
