@@ -174,10 +174,7 @@ const RequestList = () => {
             <div className='shadow h-full rounded flex flex-col justify-center gap-2 bg-white p-4'>
               <div>
                 <label className='text-sm font-medium' htmlFor="filter_by">Filter type by:</label>
-                <select onChange={e => {
-                  setFilter('req_type', e.target.value)
-                  console.log(e.target.value)
-                }} className={inputStyle} id="filter_by">
+                <select onChange={e => setFilter('req_type', e.target.value)} className={inputStyle} id="filter_by">
                   <option value="">None</option>
                   <option value="Missing ID">Missing ID</option>
                   <option value="Clearance">Clearance</option>

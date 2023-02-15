@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import { useFilters, useTable } from 'react-table'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { FaEdit } from 'react-icons/fa'
 
-const StudentsList = ({selectValue, searchValue}) => {
+const StudentsList = () => {
   const { students } = useSystem()
   const navigate = useNavigate()
 
@@ -62,25 +62,37 @@ const StudentsList = ({selectValue, searchValue}) => {
   const columsArray = useMemo(() => columns, [])
   const dataArray = useMemo(() => students, [students])
 
+  const location = useLocation()
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setFilter } = useTable({
       columns: columsArray,
       data: dataArray
   }, useFilters)
-
-  useEffect(() => {
-    if (selectValue) setFilter('branch', selectValue)
-    console.log(selectValue)
-  }, [selectValue])
-  useEffect(() => {
-    if (searchValue) setFilter('last_name', searchValue)
-    
-  }, [searchValue])
   
   const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
 
   return (
     <div>
-      {searchValue}
+      <div>
+        <div className='h-full flex flex-col'>
+          <h1 className='text-xl h-fit font-bold py-1'>Options</h1>
+          <div className='shadow h-full rounded mt-2 grid grid-cols-2 gap-2 bg-white items-center p-4'>
+            <div>
+              <label className='text-sm font-medium' htmlFor="filter_by">Branch filter:</label>
+              <select onChange={e => setFilter('branch', e.target.value)} className={inputStyle} id="filter_by">
+                <option value="">None</option>
+                <option value="Taytay">Taytay</option>
+                <option value="Cainta">Cainta</option>
+              </select>
+            </div>
+            <div>
+              <label className='text-sm font-medium' htmlFor="search_lastname">Search by student last name:</label>
+              <input type="text" onChange={e => setFilter('last_name', e.target.value)} id='search_lastname' className={inputStyle} placeholder='Student last name...' />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className='py-2 mt-1'>
         <h1 className='text-xl font-bold py-1'>Students List</h1>
             

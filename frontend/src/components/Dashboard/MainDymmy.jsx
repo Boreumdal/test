@@ -3,8 +3,8 @@ import Table from '../util/Table'
 import { useSystem } from '../../context/SystemContext'
 
 const MainDymmy = () => {
-  const { data, requests } = useSystem()
-  const columns = [
+  const { data, requests, schedules } = useSystem()
+  const requestColumns = [
     {
       Header: 'ID',
       accessor: '_id'
@@ -26,8 +26,43 @@ const MainDymmy = () => {
       accessor: 'from_branch'
     },
     {
+      Header: 'Course',
+      accessor: 'course'
+    },
+    {
+      Header: 'Year',
+      accessor: 'year_level'
+    },
+    {
       Header: 'Preferred Date',
       accessor: 'pref_date'
+    },
+    {
+      Header: 'Status',
+      accessor: 'req_status'
+    }
+  ]
+
+  const scheduleColumns = [
+    {
+      Header: 'ID',
+      accessor: '_id'
+    },
+    {
+      Header: 'Topic',
+      accessor: 'req_type'
+    },
+    {
+      Header: 'Name',
+      Cell: ({row}) => (
+        <>
+          <span className="item title">{`${row.original.from_fname}, ${row.original.from_lname}`}</span>
+        </>
+      )
+    },
+    {
+      Header: 'Branch',
+      accessor: 'from_branch'
     },
     {
       Header: 'Course',
@@ -36,6 +71,10 @@ const MainDymmy = () => {
     {
       Header: 'Year',
       accessor: 'year_level'
+    },
+    {
+      Header: 'Appointed Date',
+      accessor: 'pref_date'
     },
     {
       Header: 'Status',
@@ -49,9 +88,15 @@ const MainDymmy = () => {
         <h1 className='text-3xl font-extrabold'>Dashboard</h1>
         <p className='text-sm font-medium text-gray-400'>Welcome, {`${data?.first_name}`}</p>
       </div>
-      <div>
-        <h1 className='text-xl font-bold'>Requests List</h1>
-        <Table arr={requests} columns={columns} />
+      <div className='flex flex-col gap-3'>
+        <div className='border'>
+          <h1 className='text-xl font-bold'>Requests List</h1>
+          <Table arr={requests} columns={requestColumns} />          
+        </div>
+        <div className='border'>
+          <h1 className='text-xl font-bold'>Scheduled Requests List</h1>
+          <Table arr={schedules} columns={scheduleColumns} />
+        </div>
       </div>
     </div>
   )

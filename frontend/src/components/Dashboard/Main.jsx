@@ -6,7 +6,7 @@ import RequestList from './RequestList'
 import SchedulesList from './SchedulesList'
 import { useSystem } from '../../context/SystemContext'
 
-const Main = ({selectValue, searchValue}) => {
+const Main = () => {
     const { students, events, requests, schedules } = useSystem()
   return (
     <div className='mx-6 mt-2'>
@@ -33,10 +33,10 @@ const Main = ({selectValue, searchValue}) => {
         <div>
             <Routes>
                 <Route path='/'>
-                    <Route index element={<StudentsList selectValue={selectValue} searchValue={searchValue} />} />
-                    <Route path='event' element={<EventsList selectValue={selectValue} searchValue={searchValue} />} />
+                    <Route index element={<StudentsList />} />
+                    <Route path='event' element={<EventsList />} />
                     <Route path='request' element={<RequestList />} />
-                    <Route path='schedule' element={<SchedulesList selectValue={selectValue} searchValue={searchValue} />} />
+                    <Route path='schedule' element={<SchedulesList />} />
                 </Route>
             </Routes>
         </div>

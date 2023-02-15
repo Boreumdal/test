@@ -113,11 +113,15 @@ const EditStudent = () => {
         setUname(val)
     }
 
+    const cancelEdit = () => {
+        navigate(-1)
+    }
+
   return (
     <div className='mx-6 mt-2'>
         <div className='flex flex-row justify-between items-center'>
             <h1 className='text-3xl font-extrabold py-2'>Edit Student</h1>
-            <button onClick={() => navigate(-1)} className='text-blue-500 text-sm font-medium'>Go back...</button>
+            <button onClick={() => handleEditDelete(location.state._id)} className='rounded text-red-500 font-semibold duration-200 text-sm'>Delete account</button>
         </div>
         <form onSubmit={handleAddStudent} className='bg-white shadow p-6 text-sm mt-2'>
             <p className='font-medium py-1'>Edit student infomation...</p>
@@ -221,6 +225,7 @@ const EditStudent = () => {
             <div className='flex flex-row justify-between items-center mt-2 gap-2'>
                 <div className='flex items-center gap-2'>
                     <button type="submit" className='border-2 border-blue-500 text-white bg-blue-500 hover:text-blue-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Save Edit</button>
+                    <button onClick={cancelEdit} className='border-2 border-orange-500 text-white bg-orange-500 hover:text-orange-500 hover:bg-transparent py-1 px-3 rounded font-semibold duration-200 text-sm shadow-sm'>Cancel</button>
                     <span className='font-medium text-xs text-gray-400'>Your admin id is: { data._id }</span>
                 </div>
                 { notif?.msg && <p className='text-xs bg-green-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.msg }</p> }
@@ -228,7 +233,7 @@ const EditStudent = () => {
                 
             </div>
         </form>
-        <button onClick={() => handleEditDelete(location.state._id)} className='py-1 px-3 rounded text-red-500 font-semibold duration-200 text-sm'>Delete account...</button>
+        
     </div>
   )
 }

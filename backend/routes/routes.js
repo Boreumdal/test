@@ -135,8 +135,9 @@ router.delete('/dashboard/student/edit', async (req, res) => {
 router.get('/dashboard/student/:id', async (req, res) => {
     const { id } = req.params
     const requests = await Request.find({ from_id: id})
+    const schedules = await Schedule.find({ from_id: id})
 
-    return res.json({ requests })
+    return res.json({ requests, schedules })
 })
 
 // STUDENT: ADD REQUEST

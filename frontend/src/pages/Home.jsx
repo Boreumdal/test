@@ -24,7 +24,7 @@ const Home = () => {
     if (data.role === '5deba6ae484c2fa98f58e4b0df0dd7fecfd9f7dd9a4a9f9b4739d8e1389915bd826442a81312ac3228ecc83120'){
       fetchAll('http://localhost:8000/dashboard/all')
         .then(response => {
-          setStudents(response.response.students)
+          setStudents(response.response.students.reverse())
           setEvents(response.response.events)
           setRequests(response.response.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
           setSchedules(response.response.schedules.map(a => a).sort((a, b) => Date.parse(a.appointed_date) - Date.parse(b.appointed_date)))
@@ -33,7 +33,8 @@ const Home = () => {
     if (data.role === '49afe28d956804de0fde8f7bcabd749f495193c53fc5d802355c96ad6f3f46c37e72d18b9830d61de80c7b01f9'){
       fetchAll(`http://localhost:8000/dashboard/student/${data._id}`)
         .then(response => {
-          setRequests(response.response.requests)
+          setRequests(response.response.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
+          setSchedules(response.response.schedules.map(a => a).sort((a, b) => Date.parse(a.appointed_date) - Date.parse(b.appointed_date)))
         })
     }
   }, [data])

@@ -70,7 +70,7 @@ const AddStudent = () => {
                 setNotif(response.data)
                 reset()
                 axios.get('http://localhost:8000/dashboard/student')
-                    .then(response => setStudents(response.data.students))
+                    .then(response => setStudents(response.data.students.reverse()))
             })
         } else {
             setNotif({ err: 'Please fill up all fields before adding'})
