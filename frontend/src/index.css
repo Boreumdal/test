@@ -86,7 +86,10 @@ td, th {
 
 /* STUDENT: Profile Page Styles */
 
-
+.profile-container {
+    display: grid;
+    grid-template-columns: 27% 73%;
+}
 
 
 /* COLORS */

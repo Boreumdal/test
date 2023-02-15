@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSystem } from '../context/SystemContext'
 import { NavLink, Route, Routes } from 'react-router-dom'
-import { BsFillHouseFill, BsPersonPlusFill, BsFillCalendarEventFill } from "react-icons/bs"
+import { BsFillHouseFill, BsPersonPlusFill, BsFillCalendarEventFill, BsPersonFill } from "react-icons/bs"
 import AddEvent from '../components/Dashboard/AddEvent'
 import Main from '../components/Dashboard/Main'
 import AddStudent from '../components/Dashboard/AddStudent'
@@ -38,7 +38,7 @@ const Dashboard = () => {
                 <span>Send Request</span>
               </NavLink>
               <NavLink to='/dashboard/profile' className={({isActive}) => (isActive ? 'text-blue-500' : '') + navigationLinkStyle}>
-                <span className='text-lg'><BsPersonPlusFill /></span>
+                <span className='text-lg'><BsPersonFill /></span>
                 <span>Profile</span>
               </NavLink>
             </div>
