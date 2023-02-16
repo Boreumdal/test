@@ -1,8 +1,9 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef, useMemo, useEffect } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import { MdDelete } from 'react-icons/md'
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import axios from 'axios'
-import { useFilters, useTable } from 'react-table'
+import { useFilters, useTable, usePagination } from 'react-table'
 
 const RequestList = () => {
   const { notif, setNotif, requests, setRequests, setSchedules } = useSystem()
@@ -10,11 +11,6 @@ const RequestList = () => {
   const appoint_date = useRef(null)
 
   const columns = [
-    {
-      Header: 'ID',
-      accessor: '_id',
-      className: 'text-left'
-    },
     {
       Header: 'Topic',
       accessor: 'req_type',
@@ -97,10 +93,16 @@ const RequestList = () => {
   const columsArray = useMemo(() => columns, [])
   const dataArray = useMemo(() => requests, [requests])
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setFilter } = useTable({
+  const { state, getTableProps, getTableBodyProps, headerGroups, page, prepareRow, setFilter, setPageSize, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions } = useTable({
       columns: columsArray,
       data: dataArray
-  }, useFilters)
+  }, useFilters, usePagination)
+
+  const { pageIndex } = state
+
+  useEffect(() => {
+    setPageSize(5)
+  }, [])
 
   return (
     <div>
@@ -125,12 +127,12 @@ const RequestList = () => {
               <p className='request-name items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ `${requests[0].from_lname}, ${requests[0].from_fname}` }</span></p>
               <div className='grid grid-cols-2'>
                 <div>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>ID:</span> <span>{ requests[0].from_studentid }</span></p>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Course:</span> <span>{ requests[0].course }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>ID:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].from_studentid }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Course:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].course }</span></p>
                 </div>
                 <div>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Branch:</span> <span>{ requests[0].from_branch }</span></p>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Status:</span> <span>{ requests[0].req_status }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Branch:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].from_branch }</span></p>
+                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Status:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].req_status }</span></p>
                 </div>
               </div>
             </div>
@@ -191,7 +193,21 @@ const RequestList = () => {
       </div>
 
       <div className='py-2 mt-1'>
-        <h1 className='text-xl font-bold py-1'>Requests Table</h1>
+        <div className='flex justify-between'>
+          <h1 className='text-xl font-bold py-1'>Requests Table</h1>
+          <div className='flex items-center w-1/4 justify-center gap-3'>
+            <button className={(!canPreviousPage ? 'opacity-50 bg-orange-900' : '')+ ' bg-orange-500 py-1 px-2 text-xs flex items-center justify-center font-medium rounded text-white'} onClick={() => previousPage()} disabled={!canPreviousPage}>
+              <span className='text-lg'><IoIosArrowBack /></span>
+              <span className=''>Prev</span>
+            </button>
+            <p className='text-sm font-bold'>{`${pageIndex + 1} / ${pageOptions.length}`}</p>
+            <button className={(!canNextPage ? 'opacity-50 bg-orange-900' : '')+ ' bg-orange-500 py-1 px-2 text-xs flex items-center justify-center font-medium rounded text-white'} onClick={() => nextPage()} disabled={!canNextPage}>
+              <span className=''>Next</span>
+              <span className='text-lg'><IoIosArrowForward /></span>
+            </button>
+          </div>
+        </div>
+
         <table className='table-layout-1 bg-white mt-2 shadow rounded overflow-hidden' {...getTableProps()}>
         <thead>
                 {
@@ -212,7 +228,7 @@ const RequestList = () => {
             </thead>
             <tbody {...getTableBodyProps()}>
                 {
-                    rows.map(row => {
+                    page.map(row => {
                         prepareRow(row)
                         return (
                         <tr { ...row.getRowProps()}>
@@ -233,6 +249,8 @@ const RequestList = () => {
                 }
             </tbody>
         </table>
+
+
       </div>
     </div>
   )

@@ -25,7 +25,7 @@ const Home = () => {
       fetchAll('http://localhost:8000/dashboard/all')
         .then(response => {
           setStudents(response.response.students.reverse())
-          setEvents(response.response.events)
+          setEvents(response.response.events.map(a => a).sort((a, b) => Date.parse(a.when) - Date.parse(b.when)))
           setRequests(response.response.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
           setSchedules(response.response.schedules.map(a => a).sort((a, b) => Date.parse(a.appointed_date) - Date.parse(b.appointed_date)))
         })
@@ -38,6 +38,13 @@ const Home = () => {
         })
     }
   }, [data])
+
+  useEffect(() => {
+    fetchAll('http://localhost:8000/dashboard/all')
+      .then(response => {
+        setEvents(response.response.events.map(a => a).sort((a, b) => Date.parse(a.when) - Date.parse(b.when)))
+      })
+  }, [])
   
   return (
     <div>

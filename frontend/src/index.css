@@ -53,13 +53,13 @@ td, th {
     color: white;
 }
 .table-layout-1 thead th {
-    max-width: 200px;
-    width: 200px;
+    max-width: 120px;
+    width: 120px;
     /* padding: 1rem 0; */
 }
 .table-layout-1 tbody td {
-    max-width: 200px;
-    width: 200px;
+    max-width: 120px;
+    width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     /* padding: .8rem .6rem; */
