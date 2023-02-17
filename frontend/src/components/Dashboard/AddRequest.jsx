@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import axios from 'axios'
 import { autoCapital } from '../../utilities/UtilityFunction'
-import { fetchAll } from '../../utilities/FetchFunction'
 
 const AddRequest = () => {
     const { data, notif, setNotif, setRequests } = useSystem()
@@ -23,7 +22,7 @@ const AddRequest = () => {
         e.preventDefault()
 
         if (message && reqType && preferredDate){
-            axios.post('http://localhost:8000/dashboard/request/add', {
+            axios.post(import.meta.env.VITE_SERVER_URL + '/dashboard/request/add', {
                 message: autoCapital(message), 
                 req_type: reqType,
                 pref_date: preferredDate,
@@ -41,9 +40,9 @@ const AddRequest = () => {
                     setNotif(response.data)
                     reset()
 
-                    fetchAll(`http://localhost:8000/dashboard/student/${data._id}`)
+                    axios.get(import.meta.env.VITE_SERVER_URL + `/dashboard/student/${data._id}`)
                         .then(response => {
-                            setRequests(response.response.requests)
+                            setRequests(response.data.requests)
                         })
                 })
         } else {

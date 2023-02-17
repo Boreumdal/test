@@ -5,16 +5,21 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const router = require('./routes/routes')
 
+app.use(cors())
+
 mongoose.set('strictQuery', true)
-// mongoose.connect('mongodb+srv://melvinaxium:asteriskisrisk@cluster0.01ycm9k.mongodb.net/?retryWrites=true&w=majority')
-mongoose.connect('mongodb://127.0.0.1:27017/rebuild1')
+mongoose.connect(process.env.MONGO_URI)
+// mongoose.connect('mongodb://127.0.0.1:27017/rebuild1')
     .then(() => console.log('Database online'))
     .catch(error => console.log(error))
 
-app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/', router)
 
-app.listen(process.env.PORT, console.log('Server running'))
+// app.get('/', (req, res) => {
+//     res.send('Success')
+// })
+
+app.listen(process.env.PORT, process.env.HOST_NAME, console.log(`Server running on ${process.env.HOST_NAME} ${process.env.PORT}`))

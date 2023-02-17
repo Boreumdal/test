@@ -116,19 +116,15 @@ router.get('/dashboard/all', async (req, res) => {
     const requests = await Request.find({})
     const schedules = await Schedule.find({})
 
-    return res.json({ students, events, requests, schedules })
+    return res.status(200).set('Access-Control-Allow-Origin', 'http://127.0.0.1:5173').json({ students, events, requests, schedules })
 })
 
 // ADMIN: FETCHES STUDENTS
-router.get('/dashboard/student', async (req, res) => {
-    const students = await Student.find({})
-    
-    return res.json({ students })
-})
-
 router.delete('/dashboard/student/edit', async (req, res) => {
     await Student.findOneAndDelete({ _id: req.body.id })
-    return res.json({ msg: 'deleted' })
+    await Schedule.deleteMany({ from_id: req.body.id })
+    await Request.deleteMany({ from_id: req.body.id })
+    return res.json({ msg: `Deleted ${req.body.id}` })
 })
 
 // REQUEST: FETCHES INDIVIDUAL STUDENT OWN REQUEST TICKET BY ID
@@ -146,6 +142,12 @@ router.post('/dashboard/request/add', async (req, res) => {
     request.save()
 
     return res.json({ msg: `Request has been sent` })
+})
+
+router.get('/dashboard/student', async (req, res) => {
+    const students = await Student.find({})
+    
+    return res.json({ students })
 })
 
 router.get(`/dashboard/request`, async (req, res) => {

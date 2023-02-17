@@ -68,7 +68,7 @@ const EditStudent = () => {
     const handleAddStudent = e => {
         e.preventDefault()
         if (fname && mname && lname && gender && studentId && year && course && branch && status && contact && email && img){
-            axios.patch('http://localhost:8000/dashboard/student/edit', {
+            axios.patch(import.meta.env.VITE_SERVER_URL + '/dashboard/student/edit', {
                 ...location.state,
                 first_name: autoCapital(fname),
                 middle_name: autoCapital(mname),
@@ -85,7 +85,7 @@ const EditStudent = () => {
                 student_username: uname
             })
             .then(() => {
-                axios.get('http://localhost:8000/dashboard/student')
+                axios.get(import.meta.env.VITE_SERVER_URL + '/dashboard/student')
                     .then(response => {
                         setStudents(response.data.students.reverse())
                         navigate('/dashboard/admin')
@@ -97,9 +97,9 @@ const EditStudent = () => {
     }
 
     const handleEditDelete = id => {
-        axios.delete('http://localhost:8000/dashboard/student/edit', { data: { id }})
+        axios.delete(import.meta.env.VITE_SERVER_URL + '/dashboard/student/edit', { data: { id }})
             .then(() => {
-                axios.get('http://localhost:8000/dashboard/student')
+                axios.get(import.meta.env.VITE_SERVER_URL + '/dashboard/student')
                     .then(response => {
                         setStudents(response.data.students)
                         navigate('/dashboard/admin')

@@ -8,13 +8,13 @@ const SchedulesList = () => {
   const { schedules, setNotif, setSchedules, notif } = useSystem()
 
   const handleDoneSchedule = id => {
-    axios.patch('http://localhost:8000/dashboard/schedule', {
+    axios.patch(import.meta.env.VITE_SERVER_URL + '/dashboard/schedule', {
       id,
       status: 'Done'
     })
       .then(response => {
         setNotif(response.data)
-        axios.get('http://localhost:8000/dashboard/schedule')
+        axios.get(import.meta.env.VITE_SERVER_URL + '/dashboard/schedule')
         .then(response => {
           setSchedules(response.data.schedules)
         })

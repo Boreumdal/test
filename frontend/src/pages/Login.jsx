@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = e => {
     e.preventDefault()
 
-    axios.post('http://localhost:8000/login', { username, password })
+    axios.post(import.meta.env.VITE_SERVER_URL + '/login', { username, password })
       .then(response => {
         setToken(response.data.authToken)
         navigate('/')

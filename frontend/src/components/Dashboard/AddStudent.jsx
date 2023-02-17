@@ -50,7 +50,7 @@ const AddStudent = () => {
     const handleAddStudent = e => {
         e.preventDefault()
         if (fname && mname && lname && gender && studentId && year && course && branch && status && contact && email && img && password){
-            axios.post('http://localhost:8000/dashboard/student/add', {
+            axios.post(import.meta.env.VITE_SERVER_URL + '/dashboard/student/add', {
                 first_name: autoCapital(fname),
                 middle_name: autoCapital(mname),
                 last_name: autoCapital(lname),
@@ -66,12 +66,12 @@ const AddStudent = () => {
                 student_username: uname,
                 password
             })
-            .then(response => {
-                setNotif(response.data)
-                reset()
-                axios.get('http://localhost:8000/dashboard/student')
-                    .then(response => setStudents(response.data.students.reverse()))
-            })
+                .then(res => {
+                    setNotif(res.data)
+                    reset()
+                    axios.get(import.meta.env.VITE_SERVER_URL + '/dashboard/student')
+                        .then(response => setStudents(response.data.students.reverse()))
+                })
         } else {
             setNotif({ err: 'Please fill up all fields before adding'})
         }
@@ -142,7 +142,7 @@ const AddStudent = () => {
                     <div className='input-field-addstudent'>
                         <label htmlFor="branch">Branch:</label>
                         <select className={inputStyle} value={branch} onChange={e => setBranch(e.target.value)} id='branch'>
-                            <option value="Main">Main</option>
+                            <option value="Cainta">Cainta</option>
                             <option value="Taytay">Taytay</option>
                         </select>
                     </div>

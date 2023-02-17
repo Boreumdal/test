@@ -86,7 +86,7 @@ const EventsList = () => {
               </thead>
               <tbody {...getTableBodyProps()}>
                   {
-                      rows.map(row => {
+                    rows.length > 0 ? rows.map(row => {
                           prepareRow(row)
                           return (
                           <tr { ...row.getRowProps()}>
@@ -103,7 +103,11 @@ const EventsList = () => {
                               }
                           </tr>
                           )
-                      })
+                      }) : (
+                        <tr className='text-center'>
+                          <td colSpan={headerGroups[0].headers.length}>No data found</td>
+                        </tr>
+                      )
                   }
               </tbody>
           </table>

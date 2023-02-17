@@ -8,7 +8,7 @@ const AddEvent = () => {
     const [img, setImg] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [campus, setCampus] = useState('')
+    const [campus, setCampus] = useState('Cainta')
     const [when, setWhen] = useState('')
 
     const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
@@ -26,7 +26,7 @@ const AddEvent = () => {
         e.preventDefault()
 
         if (title && description && campus && when){
-            axios.post('http://localhost:8000/dashboard/event/add', { 
+            axios.post(import.meta.env.VITE_SERVER_URL + '/dashboard/event/add', { 
                 title: autoCapital(title), 
                 description: autoCapital(description), 
                 campus, when, picture: img ? img : defaultImage
@@ -34,7 +34,7 @@ const AddEvent = () => {
                 .then(response => {
                     setNotif(response.data)
                     reset()
-                    axios.get('http://localhost:8000/dashboard/event')
+                    axios.get(import.meta.env.VITE_SERVER_URL + '/dashboard/event')
                         .then(response => setEvents(response.data.events))
                 })
         } else {
@@ -62,7 +62,7 @@ const AddEvent = () => {
                     <div className='input-field-addstudent'>
                         <label htmlFor="campus">Campus:</label>
                         <select className={inputStyle} value={campus} onChange={e => setCampus(e.target.value)} id='campus'>
-                            <option value="Main">Cainta Main Campus</option>
+                            <option value="Cainta">Cainta Main Campus</option>
                             <option value="Taytay">Taytay Campus</option>
                         </select>
                     </div>

@@ -62,8 +62,6 @@ const StudentsList = () => {
   const columsArray = useMemo(() => columns, [])
   const dataArray = useMemo(() => students, [students])
 
-  const location = useLocation()
-
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setFilter } = useTable({
       columns: columsArray,
       data: dataArray
@@ -116,7 +114,7 @@ const StudentsList = () => {
               </thead>
               <tbody {...getTableBodyProps()}>
                   {
-                      rows.map(row => {
+                    rows.length > 0 ? rows.map(row => {
                           prepareRow(row)
                           return (
                           <tr { ...row.getRowProps()}>
@@ -133,7 +131,11 @@ const StudentsList = () => {
                               }
                           </tr>
                           )
-                      })
+                      }) : (
+                        <tr className='text-center'>
+                          <td colSpan={headerGroups[0].headers.length}>No students in database found</td>
+                        </tr>
+                      )
                   }
               </tbody>
           </table>

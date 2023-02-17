@@ -57,10 +57,10 @@ const RequestList = () => {
   const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
 
   const handleDelete = (id, gauge) => {
-    axios.delete(`http://localhost:8000/dashboard/request`, { data: { _id: id } })
+    axios.delete(import.meta.env.VITE_SERVER_URL + `/dashboard/request`, { data: { _id: id } })
     .then(res => {
       if (gauge === 2) setNotif(res.data)
-      axios.get('http://localhost:8000/dashboard/request')
+      axios.get(import.meta.env.VITE_SERVER_URL + '/dashboard/request')
         .then(response => {
           if (historyInfo.current.length > 1){
             historyInfo.current = [historyInfo.current[1], {...requests[0], gauge}]
@@ -71,7 +71,7 @@ const RequestList = () => {
           
           setRequests(response.data.requests.map(a => a).sort((a, b) => a.created_at - b.created_at))
         })
-      axios.get('http://localhost:8000/dashboard/schedule')
+      axios.get(import.meta.env.VITE_SERVER_URL + '/dashboard/schedule')
         .then(response => {
           setSchedules(response.data.schedules)
         })
@@ -79,7 +79,7 @@ const RequestList = () => {
   }
 
   const handleSetSchedule = details => {
-    axios.post('http://localhost:8000/dashboard/schedule', {
+    axios.post(import.meta.env.VITE_SERVER_URL + '/dashboard/schedule', {
       ...details,
       req_status: 'Scheduled',
       appointed_date: appoint_date.current.value
@@ -114,35 +114,48 @@ const RequestList = () => {
             { notif?.err && <p className='text-xs bg-red-500 text-white rounded-full py-1 px-3 font-medium'>{ notif.err }</p> }
           </div>
           <div className='shadow mt-2 rounded flex flex-col justify-center bg-white h-full px-5'>
-            <div>
-              <div className='flex justify-between items-center'>
-                <h3 className='text-xs font-bold text-gray-500 py-2'>Request Info:</h3>
-                <button onDoubleClick={() => handleDelete(requests[0]._id, 2)} title='Double click to delete' className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button>
-              </div>
-              <p className='request-info items-center pb-1'><span className='text-sm font-medium'>Concern:</span><span>{ requests[0].req_type }</span></p> 
-              <p className='request-info items-center pb-1'><span className='self-start text-sm font-medium'>Message:</span> <span className='h-24 overflow-y-auto'>{ requests[0].message }</span></p>
-            </div>
-            <div className='mt-1'>
-              <h3 className='text-xs font-bold text-gray-500 py-2'>Student Info:</h3>
-              <p className='request-name items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ `${requests[0].from_lname}, ${requests[0].from_fname}` }</span></p>
-              <div className='grid grid-cols-2'>
-                <div>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>ID:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].from_studentid }</span></p>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Course:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].course }</span></p>
-                </div>
-                <div>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Branch:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].from_branch }</span></p>
-                  <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Status:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].req_status }</span></p>
-                </div>
-              </div>
-            </div>
-            <div className='mt-1'>
-              <h3 className='text-xs font-bold text-gray-500 py-2'>Set Appointment Schedule:</h3>
-              <div className='grid grid-cols-2 gap-2'>
-                <input type="date" id="" className={inputStyle} ref={appoint_date} defaultValue={requests[0].pref_date} />
-                <button onClick={() => handleSetSchedule(requests[0])} className='bg-green-500 text-sm font-medium text-white rounded shadow'>Set Schedule</button>
-              </div>
-            </div>
+            {
+              requests.length === 0 ? (
+                <p className='text-center text-sm font-medium'>
+                  Nice! No request found.
+                </p>
+              ) : (
+                <>
+                  <div>
+                    <div className='flex justify-between items-center'>
+                      <h3 className='text-xs font-bold text-gray-500 py-2'>Request Info:</h3>
+                      { requests.length > 0 && <button onDoubleClick={() => handleDelete(requests[0]._id, 2)} title='Double click to delete' className=' bg-red-500 text-white text-lg p-1 rounded h-fit'><MdDelete /></button> }
+                    </div>
+                    {requests.length === 0 ? <p>No request found</p> : <p className='request-info items-center pb-1'><span className='text-sm font-medium'>Concern:</span><span>{ requests[0].req_type }</span></p> }
+                    {requests.length === 0 ? <p>No request found</p> : <p className='request-info items-center pb-1'><span className='self-start text-sm font-medium'>Message:</span> <span className='h-24 overflow-y-auto'>{ requests[0].message }</span></p>}
+                  </div>
+                  <div className='mt-1'>
+                    <h3 className='text-xs font-bold text-gray-500 py-2'>Student Info:</h3>
+                    {requests.length === 0 ? <p>No request found</p> : <p className='request-name items-center pb-1'><span className='text-sm font-medium'>Name:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ `${requests[0].from_lname}, ${requests[0].from_fname}` }</span></p>}
+                    <div className='grid grid-cols-2'>
+                      <div>
+                        {requests.length === 0 ? <p>No request found</p> : <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>ID:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].from_studentid }</span></p>}
+                        {requests.length === 0 ? <p>No request found</p> : <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Course:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].course }</span></p>}
+                      </div>
+                      <div>
+                        {requests.length === 0 ? <p>No request found</p> : <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Branch:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].from_branch }</span></p>}
+                        {requests.length === 0 ? <p>No request found</p> : <p className='grid grid-cols-2 items-center pb-1'><span className='text-sm font-medium'>Status:</span> <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{ requests[0].req_status }</span></p>}
+                      </div>
+                    </div>
+                  </div>
+                  <div className='mt-1'>
+                    <h3 className='text-xs font-bold text-gray-500 py-2'>Set Appointment Schedule:</h3>
+                    <div className='grid grid-cols-2 gap-2'>
+                      {requests.length === 0 ? <p>No request found</p> : <input type="date" id="" className={inputStyle} ref={appoint_date} defaultValue={requests[0].pref_date} />}
+                      {requests.length === 0 ? <p>No request found</p> : <button onClick={() => handleSetSchedule(requests[0])} className='bg-green-500 text-sm font-medium text-white rounded shadow'>Set Schedule</button>}
+                    </div>
+                  </div>
+                </>
+
+              )
+            }
+            
+
           </div>
         </div>
 
@@ -228,6 +241,7 @@ const RequestList = () => {
             </thead>
             <tbody {...getTableBodyProps()}>
                 {
+                  page.length > 0 ? 
                     page.map(row => {
                         prepareRow(row)
                         return (
@@ -245,7 +259,11 @@ const RequestList = () => {
                             }
                         </tr>
                         )
-                    })
+                    }) : (
+                      <tr className='text-center'>
+                        <td colSpan={headerGroups[0].headers.length}>No data found</td>
+                      </tr>
+                    )
                 }
             </tbody>
         </table>
