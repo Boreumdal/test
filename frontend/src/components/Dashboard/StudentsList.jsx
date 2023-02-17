@@ -2,64 +2,17 @@ import React, { useEffect, useMemo } from 'react'
 import { useSystem } from '../../context/SystemContext'
 import { useFilters, useTable } from 'react-table'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { FaEdit } from 'react-icons/fa'
+import { studentsListColumns } from '../../utilities/Columns'
 
 const StudentsList = () => {
   const { students } = useSystem()
   const navigate = useNavigate()
 
-  const columns = [
-    {
-      Header: 'ID',
-      accessor: '_id',
-      className: 'text-left'
-    },
-    {
-      Header: 'First Name',
-      accessor: 'first_name',
-      className: 'text-left'
-    },
-    {
-      Header: 'Last Name',
-      accessor: 'last_name',
-      className: 'text-left'
-    },
-    {
-      Header: 'Branch',
-      accessor: 'branch',
-      className: 'text-left'
-    },
-    {
-      Header: 'Gender',
-      accessor: 'gender',
-      className: 'text-center'
-    },
-    {
-      Header: 'Course',
-      accessor: 'course',
-      className: 'text-center'
-    },
-    {
-      Header: 'Year',
-      accessor: 'year_level',
-      className: 'text-center'
-    },
-    {
-      Header: 'Action',
-      className: 'text-center',
-      Cell: ({ row }) => (
-        <div className='flex justify-center items-center'>
-          <button className='text-xl text-orange-400' onClick={() => handleEditStudent(row.original)}><FaEdit /></button>
-        </div>
-      )
-    }
-  ]
-
   const handleEditStudent = info => {
     navigate('/dashboard/edit/student', { state: info})
   }
 
-  const columsArray = useMemo(() => columns, [])
+  const columsArray = useMemo(() => studentsListColumns, [])
   const dataArray = useMemo(() => students, [students])
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setFilter } = useTable({

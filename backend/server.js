@@ -5,7 +5,9 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const router = require('./routes/routes')
 
-app.use(cors())
+app.use(cors({
+    origin: ['http://127.0.0.1:5173']
+}))
 
 mongoose.set('strictQuery', true)
 mongoose.connect(process.env.MONGO_URI)

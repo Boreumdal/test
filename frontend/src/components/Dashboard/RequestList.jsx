@@ -4,55 +4,12 @@ import { MdDelete } from 'react-icons/md'
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import axios from 'axios'
 import { useFilters, useTable, usePagination } from 'react-table'
+import { requestsColumns } from '../../utilities/Columns'
 
 const RequestList = () => {
   const { notif, setNotif, requests, setRequests, setSchedules } = useSystem()
   const historyInfo = useRef([])
   const appoint_date = useRef(null)
-
-  const columns = [
-    {
-      Header: 'Topic',
-      accessor: 'req_type',
-      className: 'text-left'
-    },
-    {
-      Header: 'First Name',
-      accessor: 'from_fname',
-      className: 'text-left'
-    },
-    {
-      Header: 'Last Name',
-      accessor: 'from_lname',
-      className: 'text-left'
-    },
-    {
-      Header: 'Student ID',
-      accessor: 'from_studentid',
-      className: 'text-left'
-    },
-    {
-      Header: 'Branch',
-      accessor: 'from_branch',
-      className: 'text-left'
-    },
-    {
-      Header: 'Course',
-      accessor: 'course',
-      className: 'text-center'
-    },
-    {
-      Header: 'Year',
-      accessor: 'year_level',
-      className: 'text-center'
-    },
-    {
-      Header: 'Status',
-      accessor: 'req_status',
-      className: 'text-center'
-    }
-
-  ]
 
   const inputStyle = 'block border shadow rounded w-full text-sm py-2 px-3 border-gray-300'
 
@@ -90,7 +47,7 @@ const RequestList = () => {
       })
   }
 
-  const columsArray = useMemo(() => columns, [])
+  const columsArray = useMemo(() => requestsColumns, [])
   const dataArray = useMemo(() => requests, [requests])
 
   const { state, getTableProps, getTableBodyProps, headerGroups, page, prepareRow, setFilter, setPageSize, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions } = useTable({

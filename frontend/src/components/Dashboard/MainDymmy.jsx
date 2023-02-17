@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import { useTable } from 'react-table'
 import { useSystem } from '../../context/SystemContext'
+import { requestColumns, scheduleColumns } from '../../utilities/Columns'
 
-const Table = ({ arr, columns }) => {
+const Table = ({ arr, columns, message }) => {
 
   const columsArray = useMemo(() => [...columns], [])
   const dataArray = useMemo(() => [...arr], [])
@@ -52,7 +53,7 @@ const Table = ({ arr, columns }) => {
                       )
                   }) : (
                     <tr className='text-center'>
-                      <td colSpan={headerGroups[0].headers.length} >No data found</td>
+                      <td colSpan={headerGroups[0].headers.length} >No {message} found</td>
                     </tr>
                   )
               }
@@ -63,83 +64,7 @@ const Table = ({ arr, columns }) => {
 
 const MainDymmy = () => {
   const { data, requests, schedules } = useSystem()
-  const requestColumns = [
-    {
-      Header: 'ID',
-      accessor: '_id'
-    },
-    {
-      Header: 'Topic',
-      accessor: 'req_type'
-    },
-    {
-      Header: 'Name',
-      Cell: ({row}) => (
-        <>
-          <span className="item title">{`${row.original.from_fname}, ${row.original.from_lname}`}</span>
-        </>
-      )
-    },
-    {
-      Header: 'Branch',
-      accessor: 'from_branch'
-    },
-    {
-      Header: 'Course',
-      accessor: 'course'
-    },
-    {
-      Header: 'Year',
-      accessor: 'year_level'
-    },
-    {
-      Header: 'Preferred Date',
-      accessor: 'pref_date'
-    },
-    {
-      Header: 'Status',
-      accessor: 'req_status'
-    }
-  ]
-
-  const scheduleColumns = [
-    {
-      Header: 'ID',
-      accessor: '_id'
-    },
-    {
-      Header: 'Topic',
-      accessor: 'req_type'
-    },
-    {
-      Header: 'Name',
-      Cell: ({row}) => (
-        <>
-          <span className="item title">{`${row.original.from_fname}, ${row.original.from_lname}`}</span>
-        </>
-      )
-    },
-    {
-      Header: 'Branch',
-      accessor: 'from_branch'
-    },
-    {
-      Header: 'Course',
-      accessor: 'course'
-    },
-    {
-      Header: 'Year',
-      accessor: 'year_level'
-    },
-    {
-      Header: 'Appointed Date',
-      accessor: 'pref_date'
-    },
-    {
-      Header: 'Status',
-      accessor: 'req_status'
-    }
-  ]
+  
 
   return (
     <div className='mx-6 mt-2'>
@@ -150,11 +75,11 @@ const MainDymmy = () => {
       <div className='flex flex-col gap-3'>
         <div>
           <h1 className='text-xl font-bold'>Requests List</h1>
-          <Table arr={requests} columns={requestColumns} />
+          <Table arr={requests} columns={requestColumns} message='Requests' />
         </div>
         <div>
           <h1 className='text-xl font-bold'>Scheduled Requests List</h1>
-          <Table arr={schedules} columns={scheduleColumns} />
+          <Table arr={schedules} columns={scheduleColumns} message='scheduled request' />
         </div>
       </div>
     </div>

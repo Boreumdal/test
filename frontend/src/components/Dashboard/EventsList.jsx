@@ -1,39 +1,12 @@
 import React, { useMemo } from 'react'
 import { useTable, useFilters } from 'react-table'
 import { useSystem } from '../../context/SystemContext'
+import { eventsColumns } from '../../utilities/Columns'
 
 const EventsList = () => {
   const { events } = useSystem()
 
-  const columns = [
-    {
-      Header: 'ID',
-      accessor: '_id',
-      className: 'text-left'
-    },
-    {
-      Header: 'Title',
-      accessor: 'title',
-      className: 'text-left'
-    },
-    {
-      Header: 'Description',
-      accessor: 'description',
-      className: 'text-left'
-    },
-    {
-      Header: 'Campus',
-      accessor: 'campus',
-      className: 'text-left'
-    },
-    {
-      Header: 'When',
-      accessor: 'when',
-      className: 'text-center'
-    }
-  ]
-
-  const columsArray = useMemo(() => columns, [])
+  const columsArray = useMemo(() => eventsColumns, [])
   const dataArray = useMemo(() => events, [])
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setFilter } = useTable({
